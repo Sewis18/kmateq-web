@@ -28,7 +28,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    /* Contenedor principal */
+    /* Contenedor principal (position: relative para la imagen en la esquina) */
     .container {
       max-width: 900px;
       margin: auto;
@@ -36,17 +36,37 @@
       border: 1px solid #ccc;
       border-radius: 10px;
       padding: 25px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease-in-out;
+      position: relative;
     }
     .container:hover {
       transform: scale(1.02);
+    }
+    /* Imagen en la esquina superior izquierda siempre grande y moderna */
+    .corner-img {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 150px;
+      height: auto;
+      z-index: 100;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     /* Títulos */
     h1 {
       text-align: center;
       color: #3498db;
       margin-bottom: 20px;
+    }
+    /* Agrupación para mostrar en línea */
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+    .form-row .form-group {
+      flex: 1;
     }
     /* Grupos del formulario */
     .form-group {
@@ -71,7 +91,7 @@
     }
     input:focus, select:focus, textarea:focus {
       border-color: #3498db;
-      box-shadow: 0 0 8px rgba(52,152,219,0.5);
+      box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
       outline: none;
     }
     textarea {
@@ -128,26 +148,23 @@
     .print-area {
       display: none;
     }
-    .print-area h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #3498db;
-      font-size: 1.8rem;
-    }
     .print-area table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
       font-size: 1.1rem;
     }
-    .print-area th, .print-area td {
-      border: 1px solid #3498db;
-      padding: 12px;
-      text-align: left;
-    }
+    /* Encabezado de la tabla con una única celda */
     .print-area th {
       background: #3498db;
       color: #fff;
+      padding: 12px;
+      text-align: center;
+    }
+    .print-area td {
+      border: 1px solid #3498db;
+      padding: 12px;
+      text-align: left;
     }
     .print-area tr:nth-child(even) {
       background: #f2f2f2;
@@ -193,7 +210,10 @@
         display: block;
         overflow-x: auto;
       }
-      /* Cambiamos el layout de los radio buttons a una cuadrícula de dos columnas */
+      .form-row {
+        flex-direction: column;
+      }
+      /* Layout de los radio buttons en cuadrícula */
       .radio-group {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -207,30 +227,36 @@
 </head>
 <body>
   <div class="container">
-    <!-- Título visible únicamente en pantalla -->
+    <!-- Imagen posicionada en la esquina superior izquierda -->
+    <img src="KMATEQ.png" alt="KMATEQ" class="corner-img">
+    
+    <!-- Título visible únicamente en pantalla (no se imprime en vista previa) -->
     <h1 class="no-print">Ejecución de Servicio</h1>
+    
     <!-- Formulario de ingreso (no se imprime) -->
     <form id="serviceForm" class="no-print">
-      <div class="form-group">
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" required />
-      </div>
-      <div class="form-group">
-        <label for="nombreSolicitante">Nombre del solicitante:</label>
-        <select id="nombreSolicitante" name="nombreSolicitante" required>
-          <option value="" disabled selected>Seleccione una opción</option>
-          <option value="serviases">serviases</option>
-          <option value="Asonest">Asonest</option>
-          <option value="PAF">PAF</option>
-          <option value="AEinmobiliaria">AEinmobiliaria</option>
-          <option value="Gaia vitares">Gaia vitares</option>
-          <option value="Surtipharma">Surtipharma</option>
-          <option value="Cartongraf">Cartongraf</option>
-          <option value="Liceo de los andes">Liceo de los andes</option>
-          <option value="Analitical">Analitical</option>
-          <option value="Dizar">Dizar</option>
-          <option value="Dissan">Dissan</option>
-        </select>
+      <!-- Agrupación de Fecha y Nombre del solicitante en una misma línea -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" name="fecha" required />
+        </div>
+        <div class="form-group">
+          <label for="nombreSolicitante">Nombre del solicitante:</label>
+          <select id="nombreSolicitante" name="nombreSolicitante" required>
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="Asonest">Asonest</option>
+            <option value="Serviases">Serviases</option>
+            <option value="Surtipharma">Surtipharma</option>
+            <option value="Dissan">Dissan</option>
+            <option value="Dizar">Dizar</option>
+            <option value="As Analitycal">As Analitycal</option>
+            <option value="Embriovet">Embriovet</option>
+            <option value="Farbroquim">Farbroquim</option>
+            <option value="Gaia Vitares">Gaia Vitares</option>
+            <option value="Liceo De Los Andes A e Inmobiliaria Cartongraf">Liceo De Los Andes A e Inmobiliaria Cartongraf</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label>Evaluación del servicio:</label>
@@ -276,13 +302,13 @@
         <button type="button" onclick="window.print()">Imprimir PDF</button>
       </div>
     </form>
+    
     <!-- Área de vista previa para impresión -->
     <div id="printArea" class="print-area">
-      <h1>Ejecución de Servicio KMATEQ</h1>
+      <!-- Encabezado modificado: una única celda con colspan=2 -->
       <table>
         <tr>
-          <th>Campo</th>
-          <th>Información</th>
+          <th colspan="2">DESCRIPCION DE LA ACTIVIDAD</th>
         </tr>
         <tr>
           <td>Fecha</td>
@@ -327,8 +353,9 @@
       </div>
     </div>
   </div>
+  
   <script>
-    // Función para obtener coordenadas (soporte mouse y touch)
+    // Función para obtener coordenadas (soporte para mouse y touch)
     function getCoordinates(e, canvas) {
       const rect = canvas.getBoundingClientRect();
       if (e.touches && e.touches.length > 0) {
@@ -337,6 +364,18 @@
         return { x: e.clientX - rect.left, y: e.clientY - rect.top };
       }
     }
+    
+    // Función para convertir una hora en formato 24h (HH:MM) a formato 12h con AM/PM
+    function convertTo12Hour(time24) {
+      const parts = time24.split(":");
+      let hour = parseInt(parts[0], 10);
+      const minutes = parts[1];
+      const suffix = hour >= 12 ? "PM" : "AM";
+      hour = hour % 12;
+      if (hour === 0) { hour = 12; }
+      return hour + ":" + minutes + " " + suffix;
+    }
+    
     // Inicializa la funcionalidad para firmar en un canvas
     function initSignatureCanvas(canvasId) {
       const canvas = document.getElementById(canvasId);
@@ -349,6 +388,7 @@
         ctx.beginPath();
         ctx.moveTo(pos.x, pos.y);
       }
+    
       function draw(e) {
         if (!drawing) return;
         e.preventDefault();
@@ -358,6 +398,7 @@
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
       }
+    
       function stopDrawing() {
         drawing = false;
         ctx.beginPath();
@@ -367,20 +408,23 @@
       canvas.addEventListener("mousemove", draw);
       canvas.addEventListener("mouseup", stopDrawing);
       canvas.addEventListener("mouseleave", stopDrawing);
-      // Soporte para eventos táctiles con opciones para mejorar la experiencia en móviles
+      // Soporte para eventos táctiles
       canvas.addEventListener("touchstart", startDrawing, { passive: true });
       canvas.addEventListener("touchmove", draw, { passive: false });
       canvas.addEventListener("touchend", stopDrawing, { passive: true });
     }
+    
     // Función para limpiar el canvas
     function clearCanvas(canvasId) {
       const canvas = document.getElementById(canvasId);
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+    
     // Inicializamos los canvas para las firmas
     initSignatureCanvas("firmaRecibido");
     initSignatureCanvas("firmaRealizado");
+    
     // Evento del formulario: copia los datos al área de impresión y convierte las firmas en imágenes
     document.getElementById("serviceForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -388,16 +432,23 @@
       document.getElementById("pNombreSolicitante").textContent = document.getElementById("nombreSolicitante").value;
       document.getElementById("pEvaluacion").textContent = document.querySelector('input[name="evaluacion"]:checked').value;
       document.getElementById("pDescripcionActividad").textContent = document.getElementById("descripcionActividad").value;
-      document.getElementById("pHoraLlegada").textContent = document.getElementById("horaLlegada").value;
-      document.getElementById("pHoraSalida").textContent = document.getElementById("horaSalida").value;
+      
+      // Convertir las horas de 24h a 12h con AM/PM
+      const horaLlegada24 = document.getElementById("horaLlegada").value;
+      const horaSalida24 = document.getElementById("horaSalida").value;
+      document.getElementById("pHoraLlegada").textContent = convertTo12Hour(horaLlegada24);
+      document.getElementById("pHoraSalida").textContent = convertTo12Hour(horaSalida24);
+      
       const firmaRecibidoImg = document.getElementById("firmaRecibido").toDataURL();
       const firmaRealizadoImg = document.getElementById("firmaRealizado").toDataURL();
       document.getElementById("pFirmaRecibido").src = firmaRecibidoImg;
       document.getElementById("pFirmaRealizado").src = firmaRealizadoImg;
-      // Oculta el formulario y muestra el área de impresión
+      
+      // Ocultar el formulario y mostrar el área de vista previa
       document.getElementById("serviceForm").style.display = "none";
       document.getElementById("printArea").style.display = "block";
     });
+    
     // Función para volver al inicio
     function volverInicio() {
       location.reload();

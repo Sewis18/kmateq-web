@@ -12,7 +12,7 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      background: linear-gradient(135deg, #127b19, #35953a);
       color: #333;
     }
     /* Contenedor principal */
@@ -23,6 +23,7 @@
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
     }
     /* Encabezado */
     .header {
@@ -35,6 +36,18 @@
       margin: 0;
       font-size: 2rem;
       text-transform: uppercase;
+    }
+    /* Imagen en la esquina superior izquierda */
+    .corner-img {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 150px;
+      height: auto;
+      max-width: 100%;  /* Asegura que la imagen no exceda el ancho del contenedor */
+      z-index: 100;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     /* Estilo de formulario */
     #formContainer {
@@ -71,6 +84,16 @@
       resize: vertical;
       min-height: 80px;
     }
+    /* Agrupar campos en una fila */
+    .form-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .form-row .form-group {
+      flex: 1;
+    }
+    /* Radio y checkboxes */
     .radio-group,
     .checkbox-group {
       display: flex;
@@ -85,7 +108,7 @@
     }
     /* Botones */
     button {
-      background: #2e7d32;
+      background: #1d8143;
       border: none;
       color: #fff;
       padding: 12px 25px;
@@ -105,7 +128,7 @@
       background: #ecf0f1;
       text-align: center;
     }
-    /* Contenedores para secciones en la vista previsualización */
+    /* Contenedores para la vista previsualización */
     .preview-flex {
       display: flex;
       justify-content: center;
@@ -181,11 +204,9 @@
         top: 0;
         width: 100%;
         text-align: center;
-        /* Reducir la escala para que el contenido se ajuste en una sola hoja y quede centrado */
         transform: scale(0.70);
         transform-origin: top center;
       }
-      /* No se usa zoom adicional cuando se usa transform */
       #btnPrint, #btnVolver, #btnPreview {
         display: none;
       }
@@ -212,6 +233,10 @@
         flex-direction: column;
         gap: 10px;
       }
+      /* Forzar que los campos en .form-row se apilen en móviles */
+      .form-row {
+        flex-direction: column;
+      }
     }
     @media only screen and (max-width: 480px) {
       .header h1 {
@@ -224,10 +249,15 @@
       .radio-group, .checkbox-group {
         flex-direction: column;
       }
-      /* Se aumenta el tamaño de los canvas de firma en móviles */
       canvas {
         width: 350px;
         height: 175px;
+      }
+      /* Ajuste para la imagen en celulares */
+      .corner-img {
+        width: 100px; /* Disminuye el tamaño para pantallas pequeñas */
+        top: 5px;
+        left: 5px;
       }
     }
     /* Canvas para firmas */
@@ -243,6 +273,9 @@
 </head>
 <body>
   <div class="container">
+    <!-- Imagen en la esquina superior izquierda (KMATEQ.png) -->
+    <img src="KMATEQ.png" alt="KMATEQ" class="corner-img">
+    
     <!-- Encabezado -->
     <div class="header">
       <h1>ENTRADAS Y SALIDAS KMATEQ</h1>
@@ -263,25 +296,37 @@
           <label for="fecha">Fecha:</label>
           <input type="date" id="fecha" name="fecha" />
         </div>
-        <!-- Datos del Equipo -->
-        <div class="form-group">
-          <label for="tipo-equipo">Tipo de Equipo:</label>
-          <input type="text" id="tipo-equipo" name="tipo_equipo" placeholder="Ingrese el tipo de equipo" />
+        <!-- Agrupación de Datos del Equipo en una fila -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tipo-equipo">Tipo de Equipo:</label>
+            <input type="text" id="tipo-equipo" name="tipo_equipo" placeholder="Ingrese el tipo de equipo" />
+          </div>
+          <div class="form-group">
+            <label for="marca-serial">Marca/Modelo:</label>
+            <input type="text" id="marca-serial" name="marca_serial" placeholder="Ingrese la marca o modelo" />
+          </div>
+          <div class="form-group">
+            <label for="sn-equipo">SN Equipo:</label>
+            <input type="text" id="sn-equipo" name="sn_equipo" placeholder="Ingrese el SN del equipo" />
+          </div>
+          <div class="form-group">
+            <label for="serial-kmateq">Serial Kmateq:</label>
+            <input type="text" id="serial-kmateq" name="serial_kmateq" placeholder="Ingrese el serial Kmateq" />
+          </div>
         </div>
+        <!-- Campo Periféricos (ocupa una línea completa) -->
         <div class="form-group">
-          <label for="marca-serial">Marca/Serial:</label>
-          <input type="text" id="marca-serial" name="marca_serial" placeholder="Ingrese la marca o serial" />
+          <label for="perifericos">Periféricos:</label>
+          <input type="text" id="perifericos" name="perifericos" placeholder="Ingrese los periféricos" />
         </div>
+        <!-- Continuación de otros datos del equipo -->
         <div class="form-group">
           <label>Estado de Equipo:</label>
           <div class="radio-group">
             <label><input type="radio" name="estado_equipo" value="Bueno" checked /> Bueno</label>
             <label><input type="radio" name="estado_equipo" value="Malo" /> Malo</label>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="serial-kmateq">Serial Kmateq:</label>
-          <input type="text" id="serial-kmateq" name="serial_kmateq" placeholder="Ingrese el serial Kmateq" />
         </div>
         <div class="form-group">
           <label for="procesador">Procesador:</label>
@@ -441,49 +486,53 @@
 
     document.getElementById("btnPreview").addEventListener("click", function() {
       const formData = new FormData(document.getElementById("equipmentForm"));
-
-      const movimiento      = formData.get("movimiento");
+      
+      const movimiento      = formData.get("movimiento") || "No especificado";
       const fecha           = formData.get("fecha") || "No especificada";
-      const tipoEquipo      = formData.get("tipo_equipo");
-      const marcaSerial     = formData.get("marca_serial");
-      const estadoEquipo    = formData.get("estado_equipo");
-      const serialKmateq    = formData.get("serial_kmateq");
-      const procesador      = formData.get("procesador");
-      const ram             = formData.get("ram");
+      const tipoEquipo      = formData.get("tipo_equipo") || "No especificado";
+      const marcaSerial     = formData.get("marca_serial") || "No especificado";
+      const snEquipo        = formData.get("sn_equipo") || "No especificado";
+      const serialKmateq    = formData.get("serial_kmateq") || "No especificado";
+      const perifericos     = formData.get("perifericos") || "No especificado";
+      const estadoEquipo    = formData.get("estado_equipo") || "No especificado";
+      const procesador      = formData.get("procesador") || "No especificado";
+      const ram             = formData.get("ram") || "No especificado";
       const discoDuro       = formData.get("disco_duro") || "No especificado";
       const tamanioDisco    = formData.get("tamanio_disco") || "";
-      const licenciaWindows = formData.get("licencia_windows");
+      const licenciaWindows = formData.get("licencia_windows") || "No especificada";
       const licenciaOffice  = formData.get("licencia_office") || "No especificada";
-      const observaciones   = formData.get("observaciones");
-
+      const observaciones   = formData.get("observaciones") || "";
+      
       const empresaEntrega  = formData.get("empresa_entrega") || "";
       const nombreEntrega   = formData.get("nombre_entrega") || "";
       const empresaRecibe   = formData.get("empresa_recibe") || "";
       const nombreRecibe    = formData.get("nombre_recibe") || "";
-
+      
       const tipoMovimientoInputs = document.querySelectorAll('input[name="tipoMovimiento"]:checked');
       let tiposMovimiento = [];
       tipoMovimientoInputs.forEach(input => tiposMovimiento.push(input.value));
       if (tiposMovimiento.length === 0) {
         tiposMovimiento.push("No especificado");
       }
-
+      
       const firmaEntregaImg = document.getElementById("firma-entrega").toDataURL();
       const firmaRecibeImg  = document.getElementById("firma-recibe").toDataURL();
-
+      
       const discoCompleto = `${discoDuro} - ${tamanioDisco}`;
-
-      // Reconstruimos la vista previsualización con una estructura horizontal
+      
+      // Estructura de la vista previsualización en formato horizontal con imagen incluida
       const previewHTML = `
+        <img src="KMATEQ.png" alt="KMATEQ" style="display:block; margin:0 auto 20px auto; width:150px;">
         <h1 style="text-align:center; margin-bottom:20px;">ENTRADAS Y SALIDAS KMATEQ</h1>
         <div class="preview-flex">
           <div class="section-box">
             <h2>Datos Generales</h2>
             <p><strong>Tipo de Movimiento:</strong> ${movimiento}</p>
+            <p><strong>Tipo de Entrada/Salida:</strong> ${tiposMovimiento.join(", ")}</p>
             <p><strong>Fecha:</strong> ${fecha}</p>
             <p><strong>Tipo de Equipo:</strong> ${tipoEquipo}</p>
-            <p><strong>Marca/Serial:</strong> ${marcaSerial}</p>
-            <p><strong>Estado de Equipo:</strong> ${estadoEquipo}</p>
+            <p><strong>Marca/Modelo:</strong> ${marcaSerial}</p>
+            <p><strong>SN Equipo:</strong> ${snEquipo}</p>
             <p><strong>Serial Kmateq:</strong> ${serialKmateq}</p>
           </div>
           <div class="section-box">
@@ -523,12 +572,9 @@
         <button id="btnVolver" style="margin-top:20px; padding:10px 20px;">Volver a Inicio</button>
       `;
       
-      // Insertamos el contenido en el div preview
       document.getElementById("preview").innerHTML = previewHTML;
-      // Ocultamos el formulario
       document.getElementById("formContainer").style.display = "none";
       
-      // Asignamos los eventos de los botones
       document.getElementById("btnPrint").addEventListener("click", function() {
         window.print();
       });
@@ -540,7 +586,7 @@
     });
   </script>
   <style>
-    /* Estilos específicos para la vista previsualización en estructura horizontal */
+    /* Estilos para la vista previsualización en estructura horizontal */
     .preview-flex {
       display: flex;
       justify-content: center;
