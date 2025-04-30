@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página de Inicio - Opciones</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos globales */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      /* Background con varios tonos: verde, verde azulado y negro con transparencia */
+      background: linear-gradient(135deg, 
+                  rgba(0,128,0,0.75) 0%, 
+                  rgba(0,150,136,0.75) 50%, 
+                  rgba(0,0,0,0.7) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      color: #333;
+      max-width: 400px;
+      width: 90%;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-transform: uppercase;
+      /* Sombra para realzar el título */
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    p {
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+    .option-button {
+      display: block;
+      background: #2e7d32;
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 0;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .option-button:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido</h1>
+    <p>Seleccione una opción</p>
+    <a href="ejecucion de servicio.html" class="option-button">Ejecución de Servicio</a>
+    <a href="entradas y salidas.html" class="option-button">Entradas y Salidas</a>
+  </div>
+</body>
+</html>

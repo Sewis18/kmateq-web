@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ENTRADAS Y SALIDAS KMATEQ</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Base y fuentes */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      color: #333;
+    }
+    /* Contenedor principal */
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    /* Encabezado */
+    .header {
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      padding: 20px 30px;
+      text-align: center;
+      color: #fff;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+    /* Estilo de formulario */
+    #formContainer {
+      padding: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2e7d32;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .radio-group label,
+    .checkbox-group label {
+      cursor: pointer;
+      font-weight: 400;
+    }
+    /* Botones */
+    button {
+      background: #2e7d32;
+      border: none;
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #1b5e20;
+      transform: translateY(-2px);
+    }
+    /* Vista Previsualización */
+    #preview {
+      padding: 30px;
+      background: #ecf0f1;
+      text-align: center;
+    }
+    /* Contenedores para secciones en la vista previsualización */
+    .preview-flex {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .section-box {
+      border: 1px solid #ddd;
+      padding: 8px;
+      margin: 5px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .section-box h2 {
+      background: #2e7d32;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+      padding: 4px;
+      font-size: 1rem;
+    }
+    .section-box p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+    /* Estilo para la parte inferior de entrega/recepción */
+    .bottom-flex {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .bottom-box {
+      border: 1px solid #ddd;
+      padding: 8px;
+      margin: 5px;
+      flex: 1;
+      min-width: 300px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .bottom-box h2 {
+      background: #2e7d32;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+      padding: 4px;
+      font-size: 1rem;
+    }
+    .bottom-box p { 
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+    .bottom-box img {
+      display: block;
+      margin: 0 auto;
+    }
+    /* Ajustes para impresión */
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #preview, #preview * {
+        visibility: visible;
+      }
+      #preview {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        text-align: center;
+        /* Reducir la escala para que el contenido se ajuste en una sola hoja y quede centrado */
+        transform: scale(0.70);
+        transform-origin: top center;
+      }
+      /* No se usa zoom adicional cuando se usa transform */
+      #btnPrint, #btnVolver, #btnPreview {
+        display: none;
+      }
+    }
+    /* Media queries responsivos */
+    @media only screen and (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      .header h1 {
+        font-size: 1.75rem;
+      }
+      .form-group label {
+        font-size: 0.9rem;
+      }
+      input[type="text"],
+      input[type="date"],
+      select,
+      textarea {
+        font-size: 0.9rem;
+      }
+      .radio-group, .checkbox-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+    @media only screen and (max-width: 480px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      button {
+        width: 100%;
+        margin-top: 10px;
+      }
+      .radio-group, .checkbox-group {
+        flex-direction: column;
+      }
+      canvas {
+        width: 100%;
+        height: auto;
+      }
+    }
+    /* Canvas para firmas */
+    canvas {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: crosshair;
+      width: 250px;
+      height: 125px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Encabezado -->
+    <div class="header">
+      <h1>ENTRADAS Y SALIDAS KMATEQ</h1>
+    </div>
+    <!-- Formulario -->
+    <div id="formContainer">
+      <form id="equipmentForm">
+        <!-- Tipo de Movimiento -->
+        <div class="form-group">
+          <label>Tipo de Movimiento:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="movimiento" value="Entrada" /> Entrada</label>
+            <label><input type="radio" name="movimiento" value="Salida" checked /> Salida</label>
+          </div>
+        </div>
+        <!-- Fecha -->
+        <div class="form-group">
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" name="fecha" />
+        </div>
+        <!-- Datos del Equipo -->
+        <div class="form-group">
+          <label for="tipo-equipo">Tipo de Equipo:</label>
+          <input type="text" id="tipo-equipo" name="tipo_equipo" placeholder="Ingrese el tipo de equipo" />
+        </div>
+        <div class="form-group">
+          <label for="marca-serial">Marca/Serial:</label>
+          <input type="text" id="marca-serial" name="marca_serial" placeholder="Ingrese la marca o serial" />
+        </div>
+        <div class="form-group">
+          <label>Estado de Equipo:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="estado_equipo" value="Bueno" checked /> Bueno</label>
+            <label><input type="radio" name="estado_equipo" value="Malo" /> Malo</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="serial-kmateq">Serial Kmateq:</label>
+          <input type="text" id="serial-kmateq" name="serial_kmateq" placeholder="Ingrese el serial Kmateq" />
+        </div>
+        <div class="form-group">
+          <label for="procesador">Procesador:</label>
+          <input type="text" id="procesador" name="procesador" placeholder="Ingrese el procesador" />
+        </div>
+        <!-- RAM: Lista desplegable -->
+        <div class="form-group">
+          <label for="ram">RAM:</label>
+          <select id="ram" name="ram">
+            <option value="">Seleccione la memoria</option>
+            <option value="2GB">2GB</option>
+            <option value="4GB">4GB</option>
+            <option value="8GB">8GB</option>
+            <option value="12GB">12GB</option>
+            <option value="16GB">16GB</option>
+            <option value="32GB">32GB</option>
+            <option value="64GB">64GB</option>
+          </select>
+        </div>
+        <!-- Disco Duro: Tipo -->
+        <div class="form-group">
+          <label for="disco-duro">Disco Duro:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="disco_duro" value="SSD" /> SSD</label>
+            <label><input type="radio" name="disco_duro" value="HDD" /> HDD</label>
+          </div>
+        </div>
+        <!-- Tamaño del Disco: Lista desplegable -->
+        <div class="form-group">
+          <label for="tamanio-disco">Tamaño del Disco:</label>
+          <select id="tamanio-disco" name="tamanio_disco">
+            <option value="">Seleccione tamaño</option>
+            <option value="120GB">120GB</option>
+            <option value="240GB">240GB</option>
+            <option value="480GB">480GB</option>
+            <option value="500GB">500GB</option>
+            <option value="1T">1T</option>
+            <option value="2T">2T</option>
+            <option value="3T">3T</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="licencia-windows">Licencia Windows:</label>
+          <input type="text" id="licencia-windows" name="licencia_windows" placeholder="Ingrese la licencia de Windows" />
+        </div>
+        <div class="form-group">
+          <label for="licencia-office">Licencia Office:</label>
+          <input type="text" id="licencia-office" name="licencia_office" placeholder="Ingrese la licencia de Office" />
+        </div>
+        <!-- Observaciones -->
+        <div class="form-group">
+          <label for="observaciones">Observaciones:</label>
+          <textarea id="observaciones" name="observaciones" placeholder="Escriba alguna observación"></textarea>
+        </div>
+        <!-- Tipo de Entrada/Salida -->
+        <div class="form-group">
+          <label>Tipo de Entrada/Salida:</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="tipoMovimiento" value="Devolución" /> Devolución</label>
+            <label><input type="checkbox" name="tipoMovimiento" value="Compra" /> Compra</label>
+            <label><input type="checkbox" name="tipoMovimiento" value="Mantenimiento" /> Mantenimiento</label>
+            <label><input type="checkbox" name="tipoMovimiento" value="Venta" /> Venta</label>
+            <label><input type="checkbox" name="tipoMovimiento" value="Alquiler" checked /> Alquiler</label>
+          </div>
+        </div>
+        <!-- Datos de Entrega/Recepción -->
+        <div class="form-group">
+          <label for="empresa-entrega">Empresa Quien entrega:</label>
+          <input type="text" id="empresa-entrega" name="empresa_entrega" placeholder="Ingrese la empresa que entrega" />
+        </div>
+        <div class="form-group">
+          <label for="nombre-entrega">Nombres y Apellidos Quien entrega:</label>
+          <input type="text" id="nombre-entrega" name="nombre_entrega" placeholder="Ingrese nombres y apellidos" />
+        </div>
+        <div class="form-group">
+          <label for="empresa-recibe">Empresa Quien recibe:</label>
+          <input type="text" id="empresa-recibe" name="empresa_recibe" placeholder="Ingrese la empresa que recibe" />
+        </div>
+        <div class="form-group">
+          <label for="nombre-recibe">Nombres y Apellidos Quien recibe:</label>
+          <input type="text" id="nombre-recibe" name="nombre_recibe" placeholder="Ingrese nombres y apellidos" />
+        </div>
+        <!-- Firmas -->
+        <div class="form-group">
+          <label>Firma de Quien entrega:</label>
+          <canvas id="firma-entrega" width="250" height="125"></canvas>
+          <button type="button" onclick="clearCanvas('firma-entrega')">Limpiar Firma</button>
+        </div>
+        <div class="form-group">
+          <label>Firma de Quien recibe:</label>
+          <canvas id="firma-recibe" width="250" height="125"></canvas>
+          <button type="button" onclick="clearCanvas('firma-recibe')">Limpiar Firma</button>
+        </div>
+      </form>
+      <button id="btnPreview">Generar Previsualización</button>
+    </div>
+    <!-- Vista Previsualización -->
+    <div id="preview"></div>
+  </div>
+
+  <script>
+    function clearCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function setupSignaturePad(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+      canvas.addEventListener("mousedown", function(e) {
+        drawing = true;
+        ctx.beginPath();
+        const rect = canvas.getBoundingClientRect();
+        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+      });
+      canvas.addEventListener("mousemove", function(e) {
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.stroke();
+      });
+      canvas.addEventListener("mouseup", function() {
+        drawing = false;
+      });
+      canvas.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        drawing = true;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        ctx.beginPath();
+        ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+      });
+      canvas.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+        if (!drawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.stroke();
+      });
+      canvas.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        drawing = false;
+      });
+    }
+
+    setupSignaturePad("firma-entrega");
+    setupSignaturePad("firma-recibe");
+
+    document.getElementById("btnPreview").addEventListener("click", function() {
+      const formData = new FormData(document.getElementById("equipmentForm"));
+
+      const movimiento      = formData.get("movimiento");
+      const fecha           = formData.get("fecha") || "No especificada";
+      const tipoEquipo      = formData.get("tipo_equipo");
+      const marcaSerial     = formData.get("marca_serial");
+      const estadoEquipo    = formData.get("estado_equipo");
+      const serialKmateq    = formData.get("serial_kmateq");
+      const procesador      = formData.get("procesador");
+      const ram             = formData.get("ram");
+      const discoDuro       = formData.get("disco_duro") || "No especificado";
+      const tamanioDisco    = formData.get("tamanio_disco") || "";
+      const licenciaWindows = formData.get("licencia_windows");
+      const licenciaOffice  = formData.get("licencia_office") || "No especificada";
+      const observaciones   = formData.get("observaciones");
+
+      const empresaEntrega  = formData.get("empresa_entrega") || "";
+      const nombreEntrega   = formData.get("nombre_entrega") || "";
+      const empresaRecibe   = formData.get("empresa_recibe") || "";
+      const nombreRecibe    = formData.get("nombre_recibe") || "";
+
+      const tipoMovimientoInputs = document.querySelectorAll('input[name="tipoMovimiento"]:checked');
+      let tiposMovimiento = [];
+      tipoMovimientoInputs.forEach(input => tiposMovimiento.push(input.value));
+      if (tiposMovimiento.length === 0) {
+        tiposMovimiento.push("No especificado");
+      }
+
+      const firmaEntregaImg = document.getElementById("firma-entrega").toDataURL();
+      const firmaRecibeImg  = document.getElementById("firma-recibe").toDataURL();
+
+      const discoCompleto = `${discoDuro} - ${tamanioDisco}`;
+
+      // Reconstruimos la vista previsualización con una estructura horizontal
+      const previewHTML = `
+        <h1 style="text-align:center; margin-bottom:20px;">ENTRADAS Y SALIDAS KMATEQ</h1>
+        <div class="preview-flex">
+          <div class="section-box">
+            <h2>Datos Generales</h2>
+            <p><strong>Tipo de Movimiento:</strong> ${movimiento}</p>
+            <p><strong>Fecha:</strong> ${fecha}</p>
+            <p><strong>Tipo de Equipo:</strong> ${tipoEquipo}</p>
+            <p><strong>Marca/Serial:</strong> ${marcaSerial}</p>
+            <p><strong>Estado de Equipo:</strong> ${estadoEquipo}</p>
+            <p><strong>Serial Kmateq:</strong> ${serialKmateq}</p>
+          </div>
+          <div class="section-box">
+            <h2>Detalles Técnicos</h2>
+            <p><strong>Procesador:</strong> ${procesador}</p>
+            <p><strong>RAM:</strong> ${ram}</p>
+            <p><strong>Disco:</strong> ${discoCompleto}</p>
+          </div>
+          <div class="section-box">
+            <h2>Licencias y Observaciones</h2>
+            <p><strong>Licencia Windows:</strong> ${licenciaWindows}</p>
+            <p><strong>Licencia Office:</strong> ${licenciaOffice}</p>
+            <p><strong>Observaciones:</strong> ${observaciones}</p>
+          </div>
+        </div>
+        <div class="bottom-flex">
+          <div class="bottom-box">
+            <h2>Información de Entrega</h2>
+            <p><strong>Empresa:</strong> ${empresaEntrega}</p>
+            <p><strong>Nombres y Apellidos:</strong> ${nombreEntrega}</p>
+            <p>
+              <strong>Firma:</strong><br>
+              <img src="${firmaEntregaImg}" alt="Firma Entrega" width="200" height="100">
+            </p>
+          </div>
+          <div class="bottom-box">
+            <h2>Información de Recepción</h2>
+            <p><strong>Empresa:</strong> ${empresaRecibe}</p>
+            <p><strong>Nombres y Apellidos:</strong> ${nombreRecibe}</p>
+            <p>
+              <strong>Firma:</strong><br>
+              <img src="${firmaRecibeImg}" alt="Firma Recibe" width="200" height="100">
+            </p>
+          </div>
+        </div>
+        <button id="btnPrint" style="margin-top:20px; padding:10px 20px;">Imprimir</button>
+        <button id="btnVolver" style="margin-top:20px; padding:10px 20px;">Volver a Inicio</button>
+      `;
+      
+      // Insertamos el contenido en el div preview
+      document.getElementById("preview").innerHTML = previewHTML;
+      // Ocultamos el formulario
+      document.getElementById("formContainer").style.display = "none";
+      
+      // Asignamos los eventos de los botones
+      document.getElementById("btnPrint").addEventListener("click", function() {
+        window.print();
+      });
+      
+      document.getElementById("btnVolver").addEventListener("click", function() {
+        document.getElementById("formContainer").style.display = "block";
+        document.getElementById("preview").innerHTML = "";
+      });
+    });
+  </script>
+  <style>
+    /* Estilos específicos para la vista previsualización en estructura horizontal */
+    .preview-flex {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .section-box {
+      border: 1px solid #ddd;
+      padding: 8px;
+      margin: 5px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .section-box h2 {
+      background: #2e7d32;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+      padding: 4px;
+      font-size: 1rem;
+    }
+    .section-box p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+    .bottom-flex {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .bottom-box {
+      border: 1px solid #ddd;
+      padding: 8px;
+      margin: 5px;
+      flex: 1;
+      min-width: 300px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .bottom-box h2 {
+      background: #2e7d32;
+      color: #fff;
+      margin: 0;
+      text-align: center;
+      padding: 4px;
+      font-size: 1rem;
+    }
+    .bottom-box p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+    .bottom-box img {
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</body>
+</html>
