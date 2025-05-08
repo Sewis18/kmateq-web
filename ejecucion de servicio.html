@@ -1,458 +1,648 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <!-- Permite que se adapte en dispositivos móviles -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ejecución de Servicio - KMATEQ</title>
-  <!-- Fuente moderna: Montserrat -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    /* Fondo animado claro y elegante */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(45deg, #f9fafb, #e2e8f0, #cbd5e1, #f9fafb);
-      background-size: 400% 400%;
-      animation: gradientAnimation 15s ease-in-out infinite;
-      color: #2c3e50;
-      padding: 20px;
-    }
-    @keyframes gradientAnimation {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    /* Contenedor principal (position: relative para la imagen en la esquina) */
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 25px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-      position: relative;
-    }
-    .container:hover {
-      transform: scale(1.02);
-    }
-    /* Imagen en la esquina superior izquierda siempre grande y moderna */
-    .corner-img {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 150px;
-      height: auto;
-      z-index: 100;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    /* Títulos */
-    h1 {
-      text-align: center;
-      color: #3498db;
-      margin-bottom: 20px;
-    }
-    /* Agrupación para mostrar en línea */
-    .form-row {
-      display: flex;
-      gap: 20px;
-    }
-    .form-row .form-group {
-      flex: 1;
-    }
-    /* Grupos del formulario */
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      color: #3498db;
-      margin-bottom: 8px;
-    }
-    /* Inputs, select y textarea */
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background: #fefefe;
-      color: #2c3e50;
-      margin-bottom: 10px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #3498db;
-      box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
-      outline: none;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 130px;
-    }
-    /* Canvas para firma */
-    canvas {
-      border: 2px solid #3498db;
-      background: #fff;
-      border-radius: 5px;
-      display: block;
-      margin-bottom: 10px;
-      touch-action: none;
-      width: 100%;
-      max-width: 300px;
-    }
-    /* Botones */
-    button {
-      padding: 12px 24px;
-      background: #3498db;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 5px;
-      transition: background 0.3s, transform 0.3s;
-    }
-    button:hover {
-      background: #2980b9;
-      transform: scale(1.02);
-    }
-    /* Estilos para el grupo de radio buttons */
-    .radio-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .radio-group label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-weight: 600;
-      color: #3498db;
-      padding: 5px 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .radio-group input[type="radio"] {
-      transform: scale(1.2);
-    }
-    /* Área de impresión (vista previa) */
-    .print-area {
-      display: none;
-    }
-    .print-area table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 1.1rem;
-    }
-    /* Encabezado de la tabla con una única celda */
-    .print-area th {
-      background: #3498db;
-      color: #fff;
-      padding: 12px;
-      text-align: center;
-    }
-    .print-area td {
-      border: 1px solid #3498db;
-      padding: 12px;
-      text-align: left;
-    }
-    .print-area tr:nth-child(even) {
-      background: #f2f2f2;
-    }
-    .print-area img {
-      width: 100%;
-      max-width: 300px;
-      height: auto;
-      display: block;
-      margin: auto;
-    }
-    /* Elementos que no se imprimen */
-    .no-print { }
-    /* Modo impresión */
-    @media print {
-      .no-print {
-        display: none;
-      }
-      .print-area {
-        display: block;
-      }
-      .container {
-        box-shadow: none;
-        border: none;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ejecución de Servicio - KMATEQ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* RESET Y BASE */
+      * {
         margin: 0;
-        padding: 10px;
+        padding: 0;
+        box-sizing: border-box;
       }
-    }
-    /* Adaptación para dispositivos móviles */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.6rem;
+      
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(45deg, #f9fafb, #e2e8f0, #cbd5e1, #f9fafb);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease-in-out infinite;
+        color: #2c3e50;
+        padding: 20px;
       }
+      
+      @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      /* CONTENEDOR PRINCIPAL */
       .container {
-        padding: 15px;
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: transform 0.3s ease;
       }
-      button {
-        font-size: 0.9rem;
-        padding: 10px 15px;
+      
+      .container:hover {
+        transform: scale(1.02);
       }
-      .print-area table {
-        font-size: 0.9rem;
-        display: block;
-        overflow-x: auto;
+      
+      /* IMAGEN (LOGO) EN EL FORMULARIO (esquina izquierda) */
+      .corner-img {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 150px;
+        height: auto;
+        max-width: 100%;
+        z-index: 100;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
+      
+      /* ENCABEZADO DEL FORMULARIO */
+      .header {
+        background: linear-gradient(45deg, #3498db, #2980b9);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+        text-transform: uppercase;
+      }
+      
+      /* AGRUPACIÓN DE CAMPOS */
       .form-row {
-        flex-direction: column;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
       }
-      /* Layout de los radio buttons en cuadrícula */
+      
+      .form-row .form-group {
+        flex: 1;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #3498db;
+      }
+      
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: #fefefe;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        transition: border-color 0.3s;
+      }
+      
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+      }
+      
+      .form-group textarea {
+        width: 100%;
+        height: 200px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #2c3e50;
+        resize: vertical;
+        transition: border-color 0.3s;
+      }
+      
+      .form-group textarea:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+      }
+      
+      /* SECCIÓN DE EVALUACIÓN */
+      .evaluation-service {
+        margin: 20px 0;
+      }
+      
       .radio-group {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
       }
+      
       .radio-group label {
-        justify-content: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 600;
+        color: #3498db;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- Imagen posicionada en la esquina superior izquierda -->
-    <img src="KMATEQ.png" alt="KMATEQ" class="corner-img">
-    
-    <!-- Título visible únicamente en pantalla (no se imprime en vista previa) -->
-    <h1 class="no-print">Ejecución de Servicio</h1>
-    
-    <!-- Formulario de ingreso (no se imprime) -->
-    <form id="serviceForm" class="no-print">
-      <!-- Agrupación de Fecha y Nombre del solicitante en una misma línea -->
-      <div class="form-row">
+      
+      .radio-group label input[type="radio"] {
+        -webkit-appearance: radio;
+        appearance: radio;
+        margin-right: 5px;
+      }
+      
+      /* ÁREA DE FIRMA */
+      .signature-row {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+      }
+      
+      .signature-box {
+        flex: 1;
+        text-align: center;
+      }
+      
+      canvas {
+        border: 2px solid #3498db;
+        background: #fff;
+        border-radius: 5px;
+        display: block;
+        margin: auto;
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      /* BOTONES */
+      button {
+        padding: 12px 24px;
+        background: #3498db;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        margin: 5px;
+        transition: background 0.3s, transform 0.3s;
+      }
+      
+      button:hover {
+        background: #2980b9;
+        transform: scale(1.02);
+      }
+      
+      /* MEDIA QUERIES PARA RESPONSIIVIDAD */
+      @media (max-width: 600px) {
+        .form-row, .signature-row {
+          flex-direction: column;
+        }
+        canvas {
+          max-width: 90%;
+        }
+        .header h1 {
+          font-size: 1.5rem;
+        }
+      }
+      
+      /* ESTILOS PARA LA VISTA PREVIA */
+      #preview {
+        display: none;
+        margin-top: 30px;
+      }
+      
+      #preview .preview-container {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      
+      /* Vista Previa: Encabezado textual en negro */
+      #preview .preview-header {
+        font-size: 2rem;
+        color: #000;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      
+      /* Vista Previa: Imagen centrada (logo ampliado) ubicada debajo del encabezado textual */
+      #preview .preview-img {
+        width: 300px;
+        max-width: 100%;
+        display: block;
+        margin: 20px auto;
+      }
+      
+      /* Vista Previa: Tabla de información */
+      #preview .info-section {
+        margin-bottom: 20px;
+      }
+      
+      #preview .info-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      #preview .info-table th,
+      #preview .info-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+        font-size: 1rem;
+        color: #000;
+      }
+      
+      #preview .info-table th {
+        background: #f0f0f0;
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 12px;
+      }
+      
+      #preview .btn-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      
+      #preview .btn-container button {
+        padding: 10px 20px;
+        margin: 5px;
+      }
+      
+      #preview .signature-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      
+      #preview .signature-container .sig-box {
+        text-align: center;
+      }
+      
+      #preview .signature-container .sig-box img {
+        width: 200px;
+        border: 1px solid #ccc;
+      }
+      
+      /* MEDIA QUERIES ADICIONALES PARA PANTALLAS CHICAS */
+      @media (max-width: 400px) {
+        .header h1, 
+        #preview .preview-header {
+          font-size: 1.4rem;
+        }
+        .info-table th,
+        .info-table td {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Imagen en el formulario (logo en esquina izquierda) -->
+      <img src="KMATEQ.png" alt="KMATEQ" class="corner-img" />
+      <!-- Encabezado del formulario -->
+      <div class="header">
+        <h1>Ejecución de Servicio</h1>
+      </div>
+      <!-- Formulario -->
+      <form id="serviceForm">
+        <!-- Fila: Fecha y Nombre del solicitante -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required />
+          </div>
+          <div class="form-group">
+            <label for="nombreSolicitante">Nombre del solicitante:</label>
+            <select id="nombreSolicitante" name="nombreSolicitante" required>
+              <option value="" disabled selected>Seleccione una opción</option>
+              <option value="Asonest">Asonest</option>
+              <option value="Serviases">Serviases</option>
+              <option value="Surtipharma">Surtipharma</option>
+              <option value="Dissan">Dissan</option>
+              <option value="Dizar">Dizar</option>
+              <option value="As Analitycal">As Analitycal</option>
+              <option value="Embriovet">Embriovet</option>
+              <option value="Farbroquim">Farbroquim</option>
+              <option value="Gaia Vitares">Gaia Vitares</option>
+              <option value="AE Inmobiliaria">AE Inmobiliaria</option>
+              <option value="Cartongraf">Cartongraf</option>
+              <option value="Liceo de Los Andes">Liceo de Los Andes</option>
+            </select>
+          </div>
+        </div>
+        <!-- Evaluación del servicio -->
+        <div class="form-group evaluation-service">
+          <label>Evaluación del servicio:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="evaluacion" value="Excelente" required />Excelente</label>
+            <label><input type="radio" name="evaluacion" value="Bueno" />Bueno</label>
+            <label><input type="radio" name="evaluacion" value="Regular" />Regular</label>
+            <label><input type="radio" name="evaluacion" value="Deficiente" />Deficiente</label>
+          </div>
+        </div>
+        <!-- Descripción del servicio -->
         <div class="form-group">
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" name="fecha" required />
+          <label for="descripcionActividad">Descripción del servicio:</label>
+          <textarea id="descripcionActividad" name="descripcionActividad" required></textarea>
         </div>
-        <div class="form-group">
-          <label for="nombreSolicitante">Nombre del solicitante:</label>
-          <select id="nombreSolicitante" name="nombreSolicitante" required>
-            <option value="" disabled selected>Seleccione una opción</option>
-            <option value="Asonest">Asonest</option>
-            <option value="Serviases">Serviases</option>
-            <option value="Surtipharma">Surtipharma</option>
-            <option value="Dissan">Dissan</option>
-            <option value="Dizar">Dizar</option>
-            <option value="As Analitycal">As Analitycal</option>
-            <option value="Embriovet">Embriovet</option>
-            <option value="Farbroquim">Farbroquim</option>
-            <option value="Gaia Vitares">Gaia Vitares</option>
-            <option value="Liceo De Los Andes A e Inmobiliaria Cartongraf">Liceo De Los Andes A e Inmobiliaria Cartongraf</option>
-          </select>
+        <!-- Fila: Hora de entrada y de salida -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="horaEntrada">Hora de entrada:</label>
+            <input type="time" id="horaEntrada" name="horaEntrada" required />
+          </div>
+          <div class="form-group">
+            <label for="horaSalida">Hora de salida:</label>
+            <input type="time" id="horaSalida" name="horaSalida" required />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Evaluación del servicio:</label>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="evaluacion" value="Excelente" required /> Excelente
-          </label>
-          <label>
-            <input type="radio" name="evaluacion" value="Bueno" /> Bueno
-          </label>
-          <label>
-            <input type="radio" name="evaluacion" value="Regular" /> Regular
-          </label>
-          <label>
-            <input type="radio" name="evaluacion" value="Deficiente" /> Deficiente
-          </label>
+        <!-- Área de firmas -->
+        <div class="signature-row">
+          <div class="signature-box">
+            <label>Firma de quien recibe:</label>
+            <canvas id="firmaRecibido"></canvas>
+            <button type="button" onclick="clearCanvas('firmaRecibido')">Limpiar Firma</button>
+          </div>
+          <div class="signature-box">
+            <label>Firma de quien realiza:</label>
+            <canvas id="firmaRealizado"></canvas>
+            <button type="button" onclick="clearCanvas('firmaRealizado')">Limpiar Firma</button>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="descripcionActividad">Descripción de la actividad:</label>
-        <textarea id="descripcionActividad" name="descripcionActividad" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="horaLlegada">Hora llegada:</label>
-        <input type="time" id="horaLlegada" name="horaLlegada" required />
-      </div>
-      <div class="form-group">
-        <label for="horaSalida">Hora salida:</label>
-        <input type="time" id="horaSalida" name="horaSalida" required />
-      </div>
-      <div class="form-group">
-        <label>Firma de quien recibe:</label>
-        <canvas id="firmaRecibido" width="300" height="150"></canvas>
-        <button type="button" onclick="clearCanvas('firmaRecibido')">Limpiar Firma</button>
-      </div>
-      <div class="form-group">
-        <label>Firma de quien realiza:</label>
-        <canvas id="firmaRealizado" width="300" height="150"></canvas>
-        <button type="button" onclick="clearCanvas('firmaRealizado')">Limpiar Firma</button>
-      </div>
-      <div style="text-align: center;">
-        <button type="submit">Generar Vista Previa</button>
-        <button type="button" onclick="window.print()">Imprimir PDF</button>
-      </div>
-    </form>
-    
-    <!-- Área de vista previa para impresión -->
-    <div id="printArea" class="print-area">
-      <!-- Encabezado modificado: una única celda con colspan=2 -->
-      <table>
-        <tr>
-          <th colspan="2">DESCRIPCION DE LA ACTIVIDAD</th>
-        </tr>
-        <tr>
-          <td>Fecha</td>
-          <td id="pFecha"></td>
-        </tr>
-        <tr>
-          <td>Nombre del solicitante</td>
-          <td id="pNombreSolicitante"></td>
-        </tr>
-        <tr>
-          <td>Evaluación del servicio</td>
-          <td id="pEvaluacion"></td>
-        </tr>
-        <tr>
-          <td>Descripción de la actividad</td>
-          <td id="pDescripcionActividad"></td>
-        </tr>
-        <tr>
-          <td>Hora llegada</td>
-          <td id="pHoraLlegada"></td>
-        </tr>
-        <tr>
-          <td>Hora salida</td>
-          <td id="pHoraSalida"></td>
-        </tr>
-        <tr>
-          <td>Firma de quien recibe</td>
-          <td>
-            <img id="pFirmaRecibido" alt="Firma de quien recibe" />
-          </td>
-        </tr>
-        <tr>
-          <td>Firma de quien realiza</td>
-          <td>
-            <img id="pFirmaRealizado" alt="Firma de quien realiza" />
-          </td>
-        </tr>
-      </table>
-      <div style="text-align: center; margin-top: 20px;">
-        <button onclick="window.print()">Imprimir PDF</button>
-        <button onclick="volverInicio()">Volver al Inicio</button>
-      </div>
+        <!-- Botones del formulario -->
+        <div style="text-align: center;">
+          <button type="submit">Generar Vista Previa</button>
+          <button type="button" onclick="window.print()">Imprimir PDF</button>
+        </div>
+      </form>
+      
+      <!-- Vista Previa -->
+      <div id="preview"></div>
     </div>
-  </div>
-  
-  <script>
-    // Función para obtener coordenadas (soporte para mouse y touch)
-    function getCoordinates(e, canvas) {
-      const rect = canvas.getBoundingClientRect();
-      if (e.touches && e.touches.length > 0) {
-        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-      } else {
-        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    
+    <script>
+      // Función para limpiar el canvas
+      function clearCanvas(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
-    }
-    
-    // Función para convertir una hora en formato 24h (HH:MM) a formato 12h con AM/PM
-    function convertTo12Hour(time24) {
-      const parts = time24.split(":");
-      let hour = parseInt(parts[0], 10);
-      const minutes = parts[1];
-      const suffix = hour >= 12 ? "PM" : "AM";
-      hour = hour % 12;
-      if (hour === 0) { hour = 12; }
-      return hour + ":" + minutes + " " + suffix;
-    }
-    
-    // Inicializa la funcionalidad para firmar en un canvas
-    function initSignatureCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext("2d");
-      let drawing = false;
-    
-      function startDrawing(e) {
-        drawing = true;
-        const pos = getCoordinates(e, canvas);
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
+      
+      // Función para habilitar la firma en los canvas (soporte para mouse y touch)
+      function setupSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+        
+        function getCoords(e) {
+          const rect = canvas.getBoundingClientRect();
+          if (e.touches && e.touches.length > 0) {
+            return {
+              x: e.touches[0].clientX - rect.left,
+              y: e.touches[0].clientY - rect.top
+            };
+          } else {
+            return {
+              x: e.clientX - rect.left,
+              y: e.clientY - rect.top
+            };
+          }
+        }
+        
+        canvas.addEventListener("mousedown", function(e) {
+          drawing = true;
+          const pos = getCoords(e);
+          ctx.beginPath();
+          ctx.moveTo(pos.x, pos.y);
+        });
+        canvas.addEventListener("mousemove", function(e) {
+          if (!drawing) return;
+          const pos = getCoords(e);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        });
+        canvas.addEventListener("mouseup", function() {
+          drawing = false;
+          ctx.beginPath();
+        });
+        canvas.addEventListener("mouseleave", function() {
+          drawing = false;
+          ctx.beginPath();
+        });
+        canvas.addEventListener("touchstart", function(e) {
+          e.preventDefault();
+          drawing = true;
+          const pos = getCoords(e);
+          ctx.beginPath();
+          ctx.moveTo(pos.x, pos.y);
+        }, { passive: true });
+        canvas.addEventListener("touchmove", function(e) {
+          e.preventDefault();
+          if (!drawing) return;
+          const pos = getCoords(e);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        }, { passive: false });
+        canvas.addEventListener("touchend", function(e) {
+          e.preventDefault();
+          drawing = false;
+          ctx.beginPath();
+        }, { passive: true });
       }
-    
-      function draw(e) {
-        if (!drawing) return;
+      
+      setupSignaturePad("firmaRecibido");
+      setupSignaturePad("firmaRealizado");
+      
+      // Función para convertir hora de 24 a 12 horas (AM/PM)
+      function convertTo12Hour(timeStr) {
+        if (!timeStr) return "";
+        const parts = timeStr.split(":");
+        let hour = parseInt(parts[0], 10);
+        const minute = parts[1];
+        const period = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12;
+        if (hour === 0) hour = 12;
+        return hour + ":" + minute + " " + period;
+      }
+      
+      // Evento: Generar Vista Previa
+      document.getElementById("serviceForm").addEventListener("submit", function(e) {
         e.preventDefault();
-        const pos = getCoordinates(e, canvas);
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
+        
+        const fecha = document.getElementById("fecha").value;
+        const nombreSolicitante = document.getElementById("nombreSolicitante").value;
+        const evaluacion = document.querySelector('input[name="evaluacion"]:checked').value;
+        const descripcion = document.getElementById("descripcionActividad").value;
+        const horaEntrada = document.getElementById("horaEntrada").value;
+        const horaSalida = document.getElementById("horaSalida").value;
+        
+        const horaEntrada12 = convertTo12Hour(horaEntrada);
+        const horaSalida12 = convertTo12Hour(horaSalida);
+        
+        const firmaRecibidoImg = document.getElementById("firmaRecibido").toDataURL();
+        const firmaRealizadoImg = document.getElementById("firmaRealizado").toDataURL();
+        
+        // Ocultar la imagen del formulario (logo de la esquina) y el encabezado original
+        document.querySelector('.corner-img').style.display = "none";
+        document.querySelector('.header').style.display = "none";
+        
+        // Generar HTML de la vista previa con el encabezado textual en negro, 
+        // la imagen centrada debajo del encabezado, y la tabla con la información.
+        const previewHTML = `
+          <div class="preview-container">
+            <h1 class="preview-header">Ejecución de Servicio</h1>
+            <img src="KMATEQ.png" alt="KMATEQ" class="preview-img" />
+            <div class="info-section">
+              <table class="info-table">
+                <thead>
+                  <tr>
+                    <th colspan="2">Actividad realizada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Fecha:</strong></td>
+                    <td>${fecha}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Nombre del solicitante:</strong></td>
+                    <td>${nombreSolicitante}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Evaluación del servicio:</strong></td>
+                    <td>${evaluacion}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Descripción del servicio:</strong></td>
+                    <td style="white-space: pre-wrap;">${descripcion}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hora de entrada:</strong></td>
+                    <td>${horaEntrada12}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hora de salida:</strong></td>
+                    <td>${horaSalida12}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="signature-container">
+              <div class="sig-box">
+                <p><strong>Firma de quien recibe</strong></p>
+                <img src="${firmaRecibidoImg}" alt="Firma Recibido" />
+              </div>
+              <div class="sig-box">
+                <p><strong>Firma de quien realiza</strong></p>
+                <img src="${firmaRealizadoImg}" alt="Firma Realizado" />
+              </div>
+            </div>
+            <div class="btn-container">
+              <button id="btnPrint">Imprimir PDF</button>
+              <button id="btnVolver">Volver a Inicio</button>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById("preview").innerHTML = previewHTML;
+        document.getElementById("preview").style.display = "block";
+        document.getElementById("serviceForm").style.display = "none";
+        
+        document.getElementById("btnPrint").addEventListener("click", function() {
+          window.print();
+        });
+        document.getElementById("btnVolver").addEventListener("click", function() {
+          document.getElementById("serviceForm").style.display = "block";
+          document.getElementById("preview").style.display = "none";
+          document.querySelector('.corner-img').style.display = "block";
+          document.querySelector('.header').style.display = "block";
+        });
+      });
+    </script>
+    
+    <style>
+      /* ESTILOS PARA LA VISTA PREVIA */
+      #preview .preview-container {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
       }
-    
-      function stopDrawing() {
-        drawing = false;
-        ctx.beginPath();
+      #preview .preview-header {
+        font-size: 2rem;
+        color: #000;
+        text-transform: uppercase;
+        margin-bottom: 20px;
       }
-    
-      canvas.addEventListener("mousedown", startDrawing);
-      canvas.addEventListener("mousemove", draw);
-      canvas.addEventListener("mouseup", stopDrawing);
-      canvas.addEventListener("mouseleave", stopDrawing);
-      // Soporte para eventos táctiles
-      canvas.addEventListener("touchstart", startDrawing, { passive: true });
-      canvas.addEventListener("touchmove", draw, { passive: false });
-      canvas.addEventListener("touchend", stopDrawing, { passive: true });
-    }
-    
-    // Función para limpiar el canvas
-    function clearCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    
-    // Inicializamos los canvas para las firmas
-    initSignatureCanvas("firmaRecibido");
-    initSignatureCanvas("firmaRealizado");
-    
-    // Evento del formulario: copia los datos al área de impresión y convierte las firmas en imágenes
-    document.getElementById("serviceForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      document.getElementById("pFecha").textContent = document.getElementById("fecha").value;
-      document.getElementById("pNombreSolicitante").textContent = document.getElementById("nombreSolicitante").value;
-      document.getElementById("pEvaluacion").textContent = document.querySelector('input[name="evaluacion"]:checked').value;
-      document.getElementById("pDescripcionActividad").textContent = document.getElementById("descripcionActividad").value;
-      
-      // Convertir las horas de 24h a 12h con AM/PM
-      const horaLlegada24 = document.getElementById("horaLlegada").value;
-      const horaSalida24 = document.getElementById("horaSalida").value;
-      document.getElementById("pHoraLlegada").textContent = convertTo12Hour(horaLlegada24);
-      document.getElementById("pHoraSalida").textContent = convertTo12Hour(horaSalida24);
-      
-      const firmaRecibidoImg = document.getElementById("firmaRecibido").toDataURL();
-      const firmaRealizadoImg = document.getElementById("firmaRealizado").toDataURL();
-      document.getElementById("pFirmaRecibido").src = firmaRecibidoImg;
-      document.getElementById("pFirmaRealizado").src = firmaRealizadoImg;
-      
-      // Ocultar el formulario y mostrar el área de vista previa
-      document.getElementById("serviceForm").style.display = "none";
-      document.getElementById("printArea").style.display = "block";
-    });
-    
-    // Función para volver al inicio
-    function volverInicio() {
-      location.reload();
-    }
-  </script>
-</body>
+      #preview .info-section {
+        margin-bottom: 20px;
+      }
+      #preview .info-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #preview .info-table th,
+      #preview .info-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+        font-size: 1rem;
+        color: #000;
+      }
+      #preview .info-table th {
+        background: #f0f0f0;
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 12px;
+      }
+      #preview .btn-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+      #preview .btn-container button {
+        padding: 10px 20px;
+        margin: 5px;
+      }
+      #preview .signature-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      #preview .signature-container .sig-box {
+        text-align: center;
+      }
+      #preview .signature-container .sig-box img {
+        width: 200px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </body>
 </html>
