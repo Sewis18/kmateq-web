@@ -133,6 +133,16 @@
       width: 250px;
       height: 125px;
     }
+    /* Contenedor para las firmas alineadas en fila */
+    .firma-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .firma-container .form-group {
+      flex: 1;
+      min-width: 250px;
+    }
     /* Vista Previsualización */
     #preview {
       padding: 30px;
@@ -209,11 +219,21 @@
         left: 0;
         top: 0;
         width: 100%;
+        /* Reducir el escalado de la vista si es necesario */
         transform: scale(0.70);
         transform-origin: top center;
       }
       #btnPrint, #btnVolver, #btnPreview {
         display: none;
+      }
+      /* Ajustes específicos para compactar las firmas en impresión */
+      .bottom-flex {
+        gap: 10px;
+        flex-wrap: nowrap;
+      }
+      .bottom-box {
+        margin: 0;
+        padding: 5px;
       }
     }
     /* Media queries responsivos */
@@ -404,16 +424,18 @@
           <label for="nombre-recibe">Nombres y Apellidos Quien recibe:</label>
           <input type="text" id="nombre-recibe" name="nombre_recibe" placeholder="Ingrese nombres y apellidos" />
         </div>
-        <!-- Firmas -->
-        <div class="form-group">
-          <label>Firma de Quien entrega:</label>
-          <canvas id="firma-entrega" width="250" height="125"></canvas>
-          <button type="button" onclick="clearCanvas('firma-entrega')">Limpiar Firma</button>
-        </div>
-        <div class="form-group">
-          <label>Firma de Quien recibe:</label>
-          <canvas id="firma-recibe" width="250" height="125"></canvas>
-          <button type="button" onclick="clearCanvas('firma-recibe')">Limpiar Firma</button>
+        <!-- Firmas agrupadas para mostrarlas lado a lado -->
+        <div class="firma-container">
+          <div class="form-group">
+            <label>Firma de Quien entrega:</label>
+            <canvas id="firma-entrega" width="250" height="125"></canvas>
+            <button type="button" onclick="clearCanvas('firma-entrega')">Limpiar Firma</button>
+          </div>
+          <div class="form-group">
+            <label>Firma de Quien recibe:</label>
+            <canvas id="firma-recibe" width="250" height="125"></canvas>
+            <button type="button" onclick="clearCanvas('firma-recibe')">Limpiar Firma</button>
+          </div>
         </div>
       </form>
       <button id="btnPreview">Generar Previsualización</button>
