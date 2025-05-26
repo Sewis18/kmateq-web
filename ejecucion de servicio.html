@@ -97,7 +97,8 @@
       }
       
       .form-group input,
-      .form-group select {
+      .form-group select,
+      .form-group textarea {
         width: 100%;
         padding: 12px;
         border: 1px solid #ddd;
@@ -109,28 +110,17 @@
       }
       
       .form-group input:focus,
-      .form-group select:focus {
+      .form-group select:focus,
+      .form-group textarea:focus {
         border-color: #3498db;
         outline: none;
         box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
       }
       
       .form-group textarea {
-        width: 100%;
         height: 200px;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
         font-size: 1rem;
-        color: #2c3e50;
         resize: vertical;
-        transition: border-color 0.3s;
-      }
-      
-      .form-group textarea:focus {
-        border-color: #3498db;
-        outline: none;
-        box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
       }
       
       /* SECCIÓN DE EVALUACIÓN */
@@ -331,22 +321,31 @@
           </div>
           <div class="form-group">
             <label for="nombreSolicitante">Nombre del solicitante:</label>
-            <select id="nombreSolicitante" name="nombreSolicitante" required>
-              <option value="" disabled selected>Seleccione una opción</option>
-              <option value="Asonest">Asonest</option>
-              <option value="Serviases">Serviases</option>
-              <option value="Surtipharma">Surtipharma</option>
-              <option value="Dissan">Dissan</option>
-              <option value="Dizar">Dizar</option>
-              <option value="As Analitycal">As Analitycal</option>
-              <option value="Embriovet">Embriovet</option>
-              <option value="Farbroquim">Farbroquim</option>
-              <option value="Gaia Vitares">Gaia Vitares</option>
-              <option value="AE Inmobiliaria">AE Inmobiliaria</option>
-              <option value="Cartongraf">Cartongraf</option>
-              <option value="Liceo de Los Andes">Liceo de Los Andes</option>
-              <option value="Licorela">Licorela</option>
-            </select>
+            <!-- Se reemplaza el select por un input con datalist para permitir la escritura manual o la selección -->
+            <input
+              type="text"
+              id="nombreSolicitante"
+              name="nombreSolicitante"
+              list="solicitantesList"
+              required
+              placeholder="Escriba o seleccione un nombre"
+            />
+            <datalist id="solicitantesList">
+              <option value="Asonest"></option>
+              <option value="Serviases"></option>
+              <option value="Surtipharma"></option>
+              <option value="Dissan"></option>
+              <option value="Dizar"></option>
+              <option value="As Analitycal"></option>
+              <option value="Embriovet"></option>
+              <option value="Farbroquim"></option>
+              <option value="Gaia Vitares"></option>
+              <option value="AE Inmobiliaria"></option>
+              <option value="Cartongraf"></option>
+              <option value="Liceo de Los Andes"></option>
+              <option value="Parador"></option>
+              <option value="Licorela"></option>
+            </datalist>
           </div>
         </div>
         <!-- Evaluación del servicio -->
