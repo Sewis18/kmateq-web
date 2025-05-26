@@ -1,377 +1,292 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ENTRADAS Y SALIDAS KMATEQ</title>
+  <meta charset="UTF-8">
+  <!-- Viewport esencial para dispositivos móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hojas de Entrada y Salida - KMATEQ</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Base y tipografía */
+    /* =======================
+       ESTILOS BASE
+    =========================== */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       background: #f4f4f9;
       color: #333;
-      line-height: 1.6;
+      line-height: 1.5;
     }
-    /* Contenedor principal */
+    
+    /* =======================
+       NAVEGACIÓN Y CONTROLES
+    =========================== */
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+    }
+    nav button {
+      background: #0a4275;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    nav button:hover {
+      background: #092f5f;
+    }
+    
+    /* =======================
+       CONTENEDOR PRINCIPAL
+    =========================== */
     .container {
+      width: 95%;
       max-width: 1000px;
-      margin: 40px auto;
+      margin: 20px auto;
       background: #fff;
       border-radius: 8px;
-      padding-bottom: 20px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 20px;
     }
-    /* Encabezado */
+    
+    /* =======================
+       ENCABEZADO
+    =========================== */
     .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
       background: #0a4275;
-      padding: 20px 30px;
-      text-align: center;
       color: #fff;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .header h1 {
       margin: 0;
       font-size: 2rem;
       text-transform: uppercase;
     }
-    /* Imagen en la esquina superior izquierda */
-    .corner-img {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 120px;
-      height: auto;
+    .logo {
+      height: 60px;
+      width: auto;
       max-width: 100%;
-      z-index: 100;
-      border-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-    /* Estilos del formulario */
-    #formContainer {
-      padding: 30px;
+    
+    /* =======================
+       FORMULARIO (HOJA)
+    =========================== */
+    .form-page {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      page-break-after: always;
+    }
+    .form-page h2 {
+      margin: 0 0 10px 0;
+      color: #0a4275;
+      font-size: 1.4rem;
     }
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
     .form-group label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       font-weight: 500;
-      color: #555;
+      font-size: 0.9rem;
     }
     input[type="text"],
     input[type="date"],
     select,
     textarea {
       width: 100%;
-      padding: 10px 12px;
+      padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 0.95rem;
-      transition: border 0.3s ease;
-    }
-    input[type="text"]:focus,
-    input[type="date"]:focus,
-    select:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #0a4275;
+      font-size: 0.9rem;
+      box-sizing: border-box;
     }
     textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 60px;
     }
-    /* Agrupar campos en fila */
+    
+    /* =======================
+       AGRUPAR CAMPOS EN FILA
+    =========================== */
     .form-row {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       flex-wrap: wrap;
     }
-    .form-row .form-group {
+    .form-row > .form-group {
       flex: 1;
     }
-    /* Radios y Checkboxes */
-    .radio-group, .checkbox-group {
-      display: flex;
-      gap: 15px;
-      margin-top: 8px;
-      flex-wrap: wrap;
+    /* Con este span se muestra la fecha en impresión */
+    .fecha-group .fecha-display { display: none; }
+    @media print {
+      .fecha-group input { display: none; }
+      .fecha-group .fecha-display { display: inline; font-weight: bold; }
+      body * { visibility: hidden; }
+      #pages, #pages * { visibility: visible; }
+      #pages { position: absolute; top: 0; left: 0; width: 100%; }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("KMATEQ.png") repeat;
+        background-size: 300px 300px;
+        opacity: 0.1;
+        z-index: -1;
+        visibility: visible;
+      }
     }
-    .radio-group label,
-    .checkbox-group label {
-      cursor: pointer;
-      font-weight: 400;
-    }
-    /* Botones */
-    button {
-      background: #0a4275;
-      border: none;
-      color: #fff;
-      padding: 12px 25px;
-      font-size: 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #092f5f;
-      transform: translateY(-2px);
-    }
-    /* Canvas para firmas */
+    
+    /* =======================
+       FIRMAS
+    =========================== */
     canvas {
+      display: block;
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 4px;
       cursor: crosshair;
-      width: 250px;
-      height: 125px;
+      width: 100%;
+      max-width: 250px;
+      height: auto;
     }
-    /* Contenedor para las firmas alineadas en fila */
     .firma-container {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
+      margin-top: 15px;
     }
-    .firma-container .form-group {
+    .firma-container > .form-group {
       flex: 1;
       min-width: 250px;
     }
-    /* Vista Previsualización */
-    #preview {
-      padding: 30px;
-      background: #fff;
-      margin-top: 20px;
-      border-top: 1px solid #ccc;
-    }
-    .preview-header {
-      font-size: 2rem;
-      color: #0a4275;
-      text-align: center;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-    .preview-img {
-      width: 250px;
-      display: block;
-      margin: 20px auto;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-    }
-    /* Layout de información en la vista previa */
-    .preview-flex, .bottom-flex {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-    .section-box, .bottom-box {
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      padding: 15px;
-      margin: 10px;
-      flex: 1;
-      min-width: 250px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .section-box h2, .bottom-box h2 {
-      background: #0a4275;
-      color: #fff;
-      padding: 8px;
-      margin: -15px -15px 10px -15px;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-    .section-box p, .bottom-box p {
-      margin: 4px 0;
-      font-size: 0.9rem;
-    }
-    .btn-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .btn-container button {
-      padding: 10px 20px;
-      margin: 5px;
-    }
-    /* Ajustes para impresión */
-    @page {
-      size: A4 portrait;
-      margin: 10mm;
-    }
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #preview, #preview * {
-        visibility: visible;
-      }
-      #preview {
-        position: relative;
-        left: 0;
-        top: 0;
-        width: 100%;
-        /* Reducir el escalado de la vista si es necesario */
-        transform: scale(0.70);
-        transform-origin: top center;
-      }
-      #btnPrint, #btnVolver, #btnPreview {
-        display: none;
-      }
-      /* Ajustes específicos para compactar las firmas en impresión */
-      .bottom-flex {
-        gap: 10px;
-        flex-wrap: nowrap;
-      }
-      .bottom-box {
-        margin: 0;
-        padding: 5px;
-      }
-    }
-    /* Media queries responsivos */
+    
+    /* =======================
+       RESPONSIVIDAD OPTIMIZADA
+       Ajustes para pantallas pequeñas muy ajustadas
+    =========================== */
     @media only screen and (max-width: 768px) {
-      .container {
-        margin: 20px auto;
-        padding: 20px;
+      .header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
       }
-      .header h1 {
-        font-size: 1.75rem;
-      }
-      .form-group label {
-        font-size: 0.9rem;
-      }
+      .header h1 { font-size: 1.6rem; margin-bottom: 5px; }
+      nav { flex-direction: column; padding: 8px; }
+      nav button { width: 100%; font-size: 0.85rem; padding: 8px 10px; }
+      .form-row { flex-direction: column; }
+      .form-group label { font-size: 0.8rem; }
       input[type="text"],
       input[type="date"],
       select,
-      textarea {
-        font-size: 0.9rem;
-      }
-      .radio-group, .checkbox-group {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .form-row {
-        flex-direction: column;
-      }
+      textarea { font-size: 0.8rem; padding: 5px; }
+      .firma-container { flex-direction: column; gap: 10px; }
     }
+    
     @media only screen and (max-width: 480px) {
-      .header h1 {
-        font-size: 1.5rem;
-      }
-      button {
+      .container {
         width: 100%;
-        margin-top: 10px;
+        margin: 0;
+        padding: 5px;
+        box-shadow: none;
+        border-radius: 0;
       }
-      .radio-group, .checkbox-group {
-        flex-direction: column;
+      .header {
+        padding: 5px;
       }
-      canvas {
-        width: 350px;
-        height: 175px;
-      }
-      .corner-img {
-        width: 90px;
-        top: 5px;
-        left: 5px;
-      }
+      .header h1 { font-size: 1.4rem; }
+      nav button { font-size: 0.8rem; padding: 6px 8px; }
+      .form-group label { font-size: 0.75rem; }
+      input[type="text"],
+      input[type="date"],
+      select,
+      textarea { font-size: 0.75rem; padding: 4px; }
     }
+    
   </style>
 </head>
 <body>
+  <!-- Navegación -->
+  <nav>
+    <button id="addPage">Generar Hoja</button>
+    <button id="savePages">Guardar Hojas</button>
+    <button id="loadPages">Cargar Hojas</button>
+    <button id="printPages">Imprimir PDF</button>
+  </nav>
   <div class="container">
-    <!-- Imagen en la esquina superior izquierda -->
-    <img src="KMATEQ.png" alt="KMATEQ" class="corner-img">
-    
-    <!-- Encabezado -->
     <div class="header">
-      <h1>ENTRADAS Y SALIDAS KMATEQ</h1>
+      <h1>Hojas de Entrada y Salida KMATEQ</h1>
+      <img src="KMATEQ.png" alt="Logo KMATEQ" class="logo">
     </div>
-    
-    <!-- Formulario -->
-    <div id="formContainer">
-      <form id="equipmentForm">
-        <!-- Tipo de Movimiento -->
+    <!-- Contenedor de hojas -->
+    <div id="pages"></div>
+  </div>
+  <!-- Plantilla para formularios -->
+  <template id="pageTemplate">
+    <div class="form-page" data-page="{{num}}">
+      <h2>Hoja de Entrada y Salida {{num}}</h2>
+      <div class="form-group fecha-group">
+        <label for="fecha-{{num}}">Fecha:</label>
+        <input type="date" id="fecha-{{num}}" name="fecha-{{num}}">
+        <span class="fecha-display"></span>
+      </div>
+      <div class="form-row">
         <div class="form-group">
-          <label>Tipo de Movimiento:</label>
+          <label for="tipo-equipo-{{num}}">Tipo de Equipo:</label>
+          <input type="text" id="tipo-equipo-{{num}}" name="tipo-equipo-{{num}}" placeholder="Ingrese el tipo de equipo">
+        </div>
+        <div class="form-group">
+          <label for="marca-serial-{{num}}">Marca/Modelo:</label>
+          <input type="text" id="marca-serial-{{num}}" name="marca-serial-{{num}}" placeholder="Ingrese la marca o modelo">
+        </div>
+        <div class="form-group">
+          <label for="procesador-{{num}}">Procesador:</label>
+          <input type="text" id="procesador-{{num}}" name="procesador-{{num}}" placeholder="Ingrese el procesador">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="sn-equipo-{{num}}">SN Equipo:</label>
+          <input type="text" id="sn-equipo-{{num}}" name="sn-equipo-{{num}}" placeholder="Ingrese el SN del equipo">
+        </div>
+        <div class="form-group">
+          <label for="serial-kmateq-{{num}}">Serial Kmateq:</label>
+          <input type="text" id="serial-kmateq-{{num}}" name="serial-kmateq-{{num}}" placeholder="Ingrese el serial Kmateq">
+        </div>
+        <div class="form-group">
+          <label for="perifericos-{{num}}">Periféricos:</label>
+          <input type="text" id="perifericos-{{num}}" name="perifericos-{{num}}" placeholder="Ingrese los periféricos">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de Disco:</label>
           <div class="radio-group">
-            <label><input type="radio" name="movimiento" value="Entrada" /> Entrada</label>
-            <label><input type="radio" name="movimiento" value="Salida" checked /> Salida</label>
-          </div>
-        </div>
-        <!-- Fecha -->
-        <div class="form-group">
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" name="fecha" />
-        </div>
-        <!-- Datos del Equipo -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="tipo-equipo">Tipo de Equipo:</label>
-            <input type="text" id="tipo-equipo" name="tipo_equipo" placeholder="Ingrese el tipo de equipo" />
-          </div>
-          <div class="form-group">
-            <label for="marca-serial">Marca/Modelo:</label>
-            <input type="text" id="marca-serial" name="marca_serial" placeholder="Ingrese la marca o modelo" />
-          </div>
-          <div class="form-group">
-            <label for="sn-equipo">SN Equipo:</label>
-            <input type="text" id="sn-equipo" name="sn_equipo" placeholder="Ingrese el SN del equipo" />
-          </div>
-          <div class="form-group">
-            <label for="serial-kmateq">Serial Kmateq:</label>
-            <input type="text" id="serial-kmateq" name="serial_kmateq" placeholder="Ingrese el serial Kmateq" />
-          </div>
-        </div>
-        <!-- Periféricos -->
-        <div class="form-group">
-          <label for="perifericos">Periféricos:</label>
-          <input type="text" id="perifericos" name="perifericos" placeholder="Ingrese los periféricos" />
-        </div>
-        <!-- Estado de Equipo -->
-        <div class="form-group">
-          <label>Estado de Equipo:</label>
-          <div class="radio-group">
-            <label><input type="radio" name="estado_equipo" value="Bueno" checked /> Bueno</label>
-            <label><input type="radio" name="estado_equipo" value="Malo" /> Malo</label>
-          </div>
-        </div>
-        <!-- Otros datos técnicos -->
-        <div class="form-group">
-          <label for="procesador">Procesador:</label>
-          <input type="text" id="procesador" name="procesador" placeholder="Ingrese el procesador" />
-        </div>
-        <div class="form-group">
-          <label for="ram">RAM:</label>
-          <select id="ram" name="ram">
-            <option value="">Seleccione la memoria</option>
-            <option value="2GB">2GB</option>
-            <option value="4GB">4GB</option>
-            <option value="8GB">8GB</option>
-            <option value="12GB">12GB</option>
-            <option value="16GB">16GB</option>
-            <option value="32GB">32GB</option>
-            <option value="64GB">64GB</option>
-          </select>
-        </div>
-        <!-- Disco Duro -->
-        <div class="form-group">
-          <label for="disco-duro">Disco Duro:</label>
-          <div class="radio-group">
-            <label><input type="radio" name="disco_duro" value="SSD" /> SSD</label>
-            <label><input type="radio" name="disco_duro" value="HDD" /> HDD</label>
+            <label><input type="radio" name="disco_duro-{{num}}" value="SSD" checked> SSD</label>
+            <label><input type="radio" name="disco_duro-{{num}}" value="HDD"> HDD</label>
           </div>
         </div>
         <div class="form-group">
-          <label for="tamanio-disco">Tamaño del Disco:</label>
-          <select id="tamanio-disco" name="tamanio_disco">
+          <label for="tamanio-disco-{{num}}">Tamaño del Disco:</label>
+          <select id="tamanio-disco-{{num}}" name="tamanio-disco-{{num}}">
             <option value="">Seleccione tamaño</option>
             <option value="120GB">120GB</option>
             <option value="240GB">240GB</option>
@@ -382,240 +297,239 @@
             <option value="3T">3T</option>
           </select>
         </div>
-        <!-- Licencias -->
         <div class="form-group">
-          <label for="licencia-windows">Licencia Windows:</label>
-          <input type="text" id="licencia-windows" name="licencia_windows" placeholder="Ingrese la licencia de Windows" />
+          <label for="ram-{{num}}">RAM:</label>
+          <select id="ram-{{num}}" name="ram-{{num}}">
+            <option value="">Seleccione la memoria</option>
+            <option value="2GB">2GB</option>
+            <option value="4GB">4GB</option>
+            <option value="8GB">8GB</option>
+            <option value="12GB">12GB</option>
+            <option value="16GB">16GB</option>
+            <option value="32GB">32GB</option>
+            <option value="64GB">64GB</option>
+          </select>
         </div>
+      </div>
+      <div class="form-row">
         <div class="form-group">
-          <label for="licencia-office">Licencia Office:</label>
-          <input type="text" id="licencia-office" name="licencia_office" placeholder="Ingrese la licencia de Office" />
-        </div>
-        <!-- Observaciones -->
-        <div class="form-group">
-          <label for="observaciones">Observaciones:</label>
-          <textarea id="observaciones" name="observaciones" placeholder="Escriba alguna observación"></textarea>
-        </div>
-        <!-- Tipo de Entrada/Salida -->
-        <div class="form-group">
-          <label>Tipo de Entrada/Salida:</label>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="tipoMovimiento" value="Devolución" /> Devolución</label>
-            <label><input type="checkbox" name="tipoMovimiento" value="Compra" /> Compra</label>
-            <label><input type="checkbox" name="tipoMovimiento" value="Mantenimiento" /> Mantenimiento</label>
-            <label><input type="checkbox" name="tipoMovimiento" value="Venta" /> Venta</label>
-            <label><input type="checkbox" name="tipoMovimiento" value="Alquiler" checked /> Alquiler</label>
-          </div>
-        </div>
-        <!-- Datos de Entrega/Recepción -->
-        <div class="form-group">
-          <label for="empresa-entrega">Empresa Quien entrega:</label>
-          <input type="text" id="empresa-entrega" name="empresa_entrega" placeholder="Ingrese la empresa que entrega" />
+          <label for="licencia-windows-{{num}}">Licencia Windows:</label>
+          <input type="text" id="licencia-windows-{{num}}" name="licencia-windows-{{num}}" placeholder="Ingrese la licencia de Windows">
         </div>
         <div class="form-group">
-          <label for="nombre-entrega">Nombres y Apellidos Quien entrega:</label>
-          <input type="text" id="nombre-entrega" name="nombre_entrega" placeholder="Ingrese nombres y apellidos" />
+          <label for="licencia-office-{{num}}">Licencia Office:</label>
+          <input type="text" id="licencia-office-{{num}}" name="licencia-office-{{num}}" placeholder="Ingrese la licencia de Office">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="observaciones-{{num}}">Observaciones:</label>
+        <textarea id="observaciones-{{num}}" name="observaciones-{{num}}" placeholder="Escriba alguna observación"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="empresa-entrega-{{num}}">Empresa Quien entrega:</label>
+          <input type="text" id="empresa-entrega-{{num}}" name="empresa-entrega-{{num}}" placeholder="Ingrese la empresa que entrega">
         </div>
         <div class="form-group">
-          <label for="empresa-recibe">Empresa Quien recibe:</label>
-          <input type="text" id="empresa-recibe" name="empresa_recibe" placeholder="Ingrese la empresa que recibe" />
+          <label for="nombre-entrega-{{num}}">Nombres y Apellidos Quien entrega:</label>
+          <input type="text" id="nombre-entrega-{{num}}" name="nombre-entrega-{{num}}" placeholder="Ingrese nombres y apellidos">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="empresa-recibe-{{num}}">Empresa Quien recibe:</label>
+          <input type="text" id="empresa-recibe-{{num}}" name="empresa-recibe-{{num}}" placeholder="Ingrese la empresa que recibe">
         </div>
         <div class="form-group">
-          <label for="nombre-recibe">Nombres y Apellidos Quien recibe:</label>
-          <input type="text" id="nombre-recibe" name="nombre_recibe" placeholder="Ingrese nombres y apellidos" />
+          <label for="nombre-recibe-{{num}}">Nombres y Apellidos Quien recibe:</label>
+          <input type="text" id="nombre-recibe-{{num}}" name="nombre-recibe-{{num}}" placeholder="Ingrese nombres y apellidos">
         </div>
-        <!-- Firmas agrupadas para mostrarlas lado a lado -->
-        <div class="firma-container">
-          <div class="form-group">
-            <label>Firma de Quien entrega:</label>
-            <canvas id="firma-entrega" width="250" height="125"></canvas>
-            <button type="button" onclick="clearCanvas('firma-entrega')">Limpiar Firma</button>
-          </div>
-          <div class="form-group">
-            <label>Firma de Quien recibe:</label>
-            <canvas id="firma-recibe" width="250" height="125"></canvas>
-            <button type="button" onclick="clearCanvas('firma-recibe')">Limpiar Firma</button>
-          </div>
+      </div>
+      <div class="firma-container">
+        <div class="form-group">
+          <label>Firma de Quien entrega:</label>
+          <canvas id="firma-entrega-{{num}}" width="250" height="125"></canvas>
+          <button type="button" onclick="clearCanvas('firma-entrega-{{num}}')">Limpiar Firma</button>
         </div>
-      </form>
-      <button id="btnPreview">Generar Previsualización</button>
+        <div class="form-group">
+          <label>Firma de Quien recibe:</label>
+          <canvas id="firma-recibe-{{num}}" width="250" height="125"></canvas>
+          <button type="button" onclick="clearCanvas('firma-recibe-{{num}}')">Limpiar Firma</button>
+        </div>
+      </div>
     </div>
-    
-    <!-- Vista Previsualización -->
-    <div id="preview"></div>
-  </div>
-
+  </template>
   <script>
-    // Función para limpiar un canvas dado su id
-    function clearCanvas(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    // Configurar el canvas para la firma (soporte mouse/touch)
-    function setupSignaturePad(canvasId) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext("2d");
-      let drawing = false;
+    document.addEventListener("DOMContentLoaded", function() {
+      let pageCount = 0;
+      const pagesContainer = document.getElementById("pages");
       
-      canvas.addEventListener("mousedown", function(e) {
-        drawing = true;
-        ctx.beginPath();
-        const rect = canvas.getBoundingClientRect();
-        ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-      });
-      canvas.addEventListener("mousemove", function(e) {
-        if (!drawing) return;
-        const rect = canvas.getBoundingClientRect();
-        ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        ctx.stroke();
-      });
-      canvas.addEventListener("mouseup", function() {
-        drawing = false;
-      });
-      canvas.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        drawing = true;
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        ctx.beginPath();
-        ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-      });
-      canvas.addEventListener("touchmove", function(e) {
-        e.preventDefault();
-        if (!drawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        ctx.stroke();
-      });
-      canvas.addEventListener("touchend", function(e) {
-        e.preventDefault();
-        drawing = false;
-      });
-    }
-    
-    setupSignaturePad("firma-entrega");
-    setupSignaturePad("firma-recibe");
-
-    // Función para generar la previsualización de los datos
-    document.getElementById("btnPreview").addEventListener("click", function() {
-      const formData = new FormData(document.getElementById("equipmentForm"));
-      
-      const movimiento      = formData.get("movimiento") || "No especificado";
-      const fecha           = formData.get("fecha") || "No especificada";
-      const tipoEquipo      = formData.get("tipo_equipo") || "No especificado";
-      const marcaSerial     = formData.get("marca_serial") || "No especificado";
-      const snEquipo        = formData.get("sn_equipo") || "No especificado";
-      const serialKmateq    = formData.get("serial_kmateq") || "No especificado";
-      const perifericos     = formData.get("perifericos") || "No especificado";
-      const estadoEquipo    = formData.get("estado_equipo") || "No especificado";
-      const procesador      = formData.get("procesador") || "No especificado";
-      const ram             = formData.get("ram") || "No especificado";
-      const discoDuro       = formData.get("disco_duro") || "No especificado";
-      const tamanioDisco    = formData.get("tamanio_disco") || "";
-      const licenciaWindows = formData.get("licencia_windows") || "No especificada";
-      const licenciaOffice  = formData.get("licencia_office") || "No especificada";
-      const observaciones   = formData.get("observaciones") || "";
-      
-      const empresaEntrega  = formData.get("empresa_entrega") || "";
-      const nombreEntrega   = formData.get("nombre_entrega") || "";
-      const empresaRecibe   = formData.get("empresa_recibe") || "";
-      const nombreRecibe    = formData.get("nombre_recibe") || "";
-      
-      // Recolectamos los valores de la casilla tipoMovimiento (checkbox)
-      const tipoMovimientoInputs = document.querySelectorAll('input[name="tipoMovimiento"]:checked');
-      let tiposMovimiento = [];
-      tipoMovimientoInputs.forEach(input => tiposMovimiento.push(input.value));
-      if (tiposMovimiento.length === 0) {
-        tiposMovimiento.push("No especificado");
+      // Función para añadir una nueva hoja
+      function addPage() {
+        pageCount++;
+        let pageHTML = document.getElementById("pageTemplate").innerHTML.replace(/{{num}}/g, pageCount);
+        pagesContainer.insertAdjacentHTML("beforeend", pageHTML);
+        setupSignaturePad("firma-entrega-" + pageCount);
+        setupSignaturePad("firma-recibe-" + pageCount);
+        let newPage = pagesContainer.lastElementChild;
+        let dateInput = newPage.querySelector(`#fecha-${pageCount}`);
+        let spanDate = newPage.querySelector(".fecha-display");
+        dateInput.addEventListener("change", function() {
+          spanDate.textContent = this.value;
+        });
       }
       
-      const firmaEntregaImg = document.getElementById("firma-entrega").toDataURL();
-      const firmaRecibeImg  = document.getElementById("firma-recibe").toDataURL();
+      // Función para limpiar canvas
+      window.clearCanvas = function(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (canvas) {
+          const ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      };
       
-      const discoCompleto = `${discoDuro} - ${tamanioDisco}`;
+      // Configurar área de firma
+      function setupSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+        canvas.addEventListener("mousedown", function(e) {
+          drawing = true;
+          ctx.beginPath();
+          const rect = canvas.getBoundingClientRect();
+          ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+        canvas.addEventListener("mousemove", function(e) {
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        });
+        canvas.addEventListener("mouseup", function() {
+          drawing = false;
+        });
+        canvas.addEventListener("touchstart", function(e) {
+          e.preventDefault();
+          drawing = true;
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          ctx.beginPath();
+          ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener("touchmove", function(e) {
+          e.preventDefault();
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+          ctx.strokeStyle = "#000";
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        });
+        canvas.addEventListener("touchend", function(e) {
+          e.preventDefault();
+          drawing = false;
+        });
+      }
       
-      // Construcción de la vista de previsualización con un estilo profesional
-      const previewHTML = `
-        <h1 class="preview-header">ENTRADAS Y SALIDAS KMATEQ</h1>
-        <img src="KMATEQ.png" alt="KMATEQ" class="preview-img" />
-        <div class="preview-flex">
-          <div class="section-box">
-            <h2>Datos Generales</h2>
-            <p><strong>Tipo de Movimiento:</strong> ${movimiento}</p>
-            <p><strong>Tipo de Entrada/Salida:</strong> ${tiposMovimiento.join(", ")}</p>
-            <p><strong>Fecha:</strong> ${fecha}</p>
-            <p><strong>Tipo de Equipo:</strong> ${tipoEquipo}</p>
-            <p><strong>Marca/Modelo:</strong> ${marcaSerial}</p>
-            <p><strong>SN Equipo:</strong> ${snEquipo}</p>
-            <p><strong>Serial Kmateq:</strong> ${serialKmateq}</p>
-            <p><strong>Periféricos:</strong> ${perifericos}</p>
-            <p><strong>Estado de Equipo:</strong> ${estadoEquipo}</p>
-          </div>
-          <div class="section-box">
-            <h2>Detalles Técnicos</h2>
-            <p><strong>Procesador:</strong> ${procesador}</p>
-            <p><strong>RAM:</strong> ${ram}</p>
-            <p><strong>Disco:</strong> ${discoCompleto}</p>
-          </div>
-          <div class="section-box">
-            <h2>Licencias y Observaciones</h2>
-            <p><strong>Licencia Windows:</strong> ${licenciaWindows}</p>
-            <p><strong>Licencia Office:</strong> ${licenciaOffice}</p>
-            <p><strong>Observaciones:</strong> ${observaciones}</p>
-          </div>
-        </div>
-        <div class="bottom-flex">
-          <div class="bottom-box">
-            <h2>Información de Entrega</h2>
-            <p><strong>Empresa:</strong> ${empresaEntrega}</p>
-            <p><strong>Nombres y Apellidos:</strong> ${nombreEntrega}</p>
-            <p>
-              <strong>Firma:</strong><br>
-              <img src="${firmaEntregaImg}" alt="Firma Entrega" width="200" height="100">
-            </p>
-          </div>
-          <div class="bottom-box">
-            <h2>Información de Recepción</h2>
-            <p><strong>Empresa:</strong> ${empresaRecibe}</p>
-            <p><strong>Nombres y Apellidos:</strong> ${nombreRecibe}</p>
-            <p>
-              <strong>Firma:</strong><br>
-              <img src="${firmaRecibeImg}" alt="Firma Recibe" width="200" height="100">
-            </p>
-          </div>
-        </div>
-        <div class="btn-container">
-          <button id="btnPrint">Imprimir</button>
-          <button id="btnVolver">Volver a Inicio</button>
-        </div>
-      `;
+      // Guardar y cargar hojas con localStorage
+      function saveHojas() {
+        const hojas = [];
+        document.querySelectorAll(".form-page").forEach(page => {
+          const hoja = {};
+          hoja.num = page.getAttribute("data-page");
+          hoja.fecha = page.querySelector("input[type='date']").value || "";
+          hoja.tipoEquipo = page.querySelector("input[id^='tipo-equipo-']").value || "";
+          hoja.marcaSerial = page.querySelector("input[id^='marca-serial-']").value || "";
+          hoja.procesador = page.querySelector("input[id^='procesador-']").value || "";
+          hoja.snEquipo = page.querySelector("input[id^='sn-equipo-']").value || "";
+          hoja.serialKmateq = page.querySelector("input[id^='serial-kmateq-']").value || "";
+          hoja.perifericos = page.querySelector("input[id^='perifericos-']").value || "";
+          hoja.tamanioDisco = page.querySelector("select[id^='tamanio-disco-']").value || "";
+          hoja.ram = page.querySelector("select[id^='ram-']").value || "";
+          hoja.licenciaWindows = page.querySelector("input[id^='licencia-windows-']").value || "";
+          hoja.licenciaOffice = page.querySelector("input[id^='licencia-office-']").value || "";
+          hoja.observaciones = page.querySelector("textarea[id^='observaciones-']").value || "";
+          hoja.empresaEntrega = page.querySelector("input[id^='empresa-entrega-']").value || "";
+          hoja.nombreEntrega = page.querySelector("input[id^='nombre-entrega-']").value || "";
+          hoja.empresaRecibe = page.querySelector("input[id^='empresa-recibe-']").value || "";
+          hoja.nombreRecibe = page.querySelector("input[id^='nombre-recibe-']").value || "";
+          const canvasEntrega = page.querySelector("canvas[id^='firma-entrega-']");
+          const canvasRecibe = page.querySelector("canvas[id^='firma-recibe-']");
+          hoja.firmaEntrega = canvasEntrega ? canvasEntrega.toDataURL() : "";
+          hoja.firmaRecibe = canvasRecibe ? canvasRecibe.toDataURL() : "";
+          hojas.push(hoja);
+        });
+        localStorage.setItem("formHojas", JSON.stringify(hojas));
+        alert("Hojas guardadas en el navegador.");
+      }
       
-      // Ocultar la imagen y encabezado original y mostrar la previsualización
-      document.querySelector('.corner-img').style.display = "none";
-      document.querySelector('.header').style.display = "none";
-      document.getElementById("preview").innerHTML = previewHTML;
-      document.getElementById("formContainer").style.display = "none";
+      function loadHojas() {
+        const hojas = JSON.parse(localStorage.getItem("formHojas")) || [];
+        pagesContainer.innerHTML = "";
+        pageCount = 0;
+        hojas.forEach(hoja => {
+          pageCount++;
+          let pageHTML = document.getElementById("pageTemplate").innerHTML.replace(/{{num}}/g, pageCount);
+          pagesContainer.insertAdjacentHTML("beforeend", pageHTML);
+          let page = pagesContainer.lastElementChild;
+          page.setAttribute("data-page", pageCount);
+          page.querySelector(`#fecha-${pageCount}`).value = hoja.fecha;
+          page.querySelector(`#fecha-${pageCount}`).dispatchEvent(new Event("change"));
+          page.querySelector(`#tipo-equipo-${pageCount}`).value = hoja.tipoEquipo;
+          page.querySelector(`#marca-serial-${pageCount}`).value = hoja.marcaSerial;
+          page.querySelector(`#procesador-${pageCount}`).value = hoja.procesador;
+          page.querySelector(`#sn-equipo-${pageCount}`).value = hoja.snEquipo;
+          page.querySelector(`#serial-kmateq-${pageCount}`).value = hoja.serialKmateq;
+          page.querySelector(`#perifericos-${pageCount}`).value = hoja.perifericos;
+          page.querySelector(`#tamanio-disco-${pageCount}`).value = hoja.tamanioDisco;
+          page.querySelector(`#ram-${pageCount}`).value = hoja.ram;
+          page.querySelector(`#licencia-windows-${pageCount}`).value = hoja.licenciaWindows;
+          page.querySelector(`#licencia-office-${pageCount}`).value = hoja.licenciaOffice;
+          page.querySelector(`#observaciones-${pageCount}`).value = hoja.observaciones;
+          page.querySelector(`#empresa-entrega-${pageCount}`).value = hoja.empresaEntrega;
+          page.querySelector(`#nombre-entrega-${pageCount}`).value = hoja.nombreEntrega;
+          page.querySelector(`#empresa-recibe-${pageCount}`).value = hoja.empresaRecibe;
+          page.querySelector(`#nombre-recibe-${pageCount}`).value = hoja.nombreRecibe;
+          const canvasEntrega = page.querySelector(`#firma-entrega-${pageCount}`);
+          const canvasRecibe = page.querySelector(`#firma-recibe-${pageCount}`);
+          if (canvasEntrega && hoja.firmaEntrega) {
+            let imgEntrega = new Image();
+            imgEntrega.onload = function() {
+              canvasEntrega.getContext("2d").drawImage(imgEntrega, 0, 0);
+            };
+            imgEntrega.src = hoja.firmaEntrega;
+          }
+          if (canvasRecibe && hoja.firmaRecibe) {
+            let imgRecibe = new Image();
+            imgRecibe.onload = function() {
+              canvasRecibe.getContext("2d").drawImage(imgRecibe, 0, 0);
+            };
+            imgRecibe.src = hoja.firmaRecibe;
+          }
+          setupSignaturePad("firma-entrega-" + pageCount);
+          setupSignaturePad("firma-recibe-" + pageCount);
+          let dateInput = page.querySelector(`#fecha-${pageCount}`);
+          let spanDate = page.querySelector(".fecha-display");
+          dateInput.addEventListener("change", function() {
+            spanDate.textContent = this.value;
+          });
+        });
+        alert("Hojas cargadas desde el navegador.");
+      }
       
-      // Botón para imprimir
-      document.getElementById("btnPrint").addEventListener("click", function() {
+      addPage();
+      
+      document.getElementById("addPage").addEventListener("click", addPage);
+      document.getElementById("savePages").addEventListener("click", saveHojas);
+      document.getElementById("loadPages").addEventListener("click", loadHojas);
+      document.getElementById("printPages").addEventListener("click", function() {
         window.print();
-      });
-      
-      // Volver al formulario
-      document.getElementById("btnVolver").addEventListener("click", function() {
-        document.getElementById("formContainer").style.display = "block";
-        document.getElementById("preview").innerHTML = "";
-        document.querySelector('.corner-img').style.display = "block";
-        document.querySelector('.header').style.display = "block";
       });
     });
   </script>
