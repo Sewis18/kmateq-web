@@ -2,33 +2,28 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- Viewport esencial para dispositivos móviles -->
+  <!-- Se incluye el viewport para que la página se ajuste automáticamente a la pantalla -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hojas de Entrada y Salida - KMATEQ</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* =======================
-       ESTILOS BASE
-    =========================== */
+    /* Estilos base y tipografía */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       background: #f4f4f9;
       color: #333;
-      line-height: 1.5;
+      line-height: 1.6;
     }
-    
-    /* =======================
-       NAVEGACIÓN Y CONTROLES
-    =========================== */
+    /* Navegación y controles */
     nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      padding: 10px;
+      padding: 15px;
     }
     nav button {
       background: #0a4275;
@@ -42,12 +37,8 @@
     nav button:hover {
       background: #092f5f;
     }
-    
-    /* =======================
-       CONTENEDOR PRINCIPAL
-    =========================== */
+    /* Contenedor principal */
     .container {
-      width: 95%;
       max-width: 1000px;
       margin: 20px auto;
       background: #fff;
@@ -55,46 +46,44 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
       padding: 20px;
     }
-    
-    /* =======================
-       ENCABEZADO
-    =========================== */
+    /* Encabezado principal */
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-align: center;
       padding: 15px;
       background: #0a4275;
       color: #fff;
       border-radius: 8px 8px 0 0;
       margin-bottom: 20px;
-      flex-wrap: wrap;
     }
     .header h1 {
       margin: 0;
       font-size: 2rem;
       text-transform: uppercase;
     }
-    .logo {
-      height: 60px;
-      width: auto;
-      max-width: 100%;
+    /* Encabezado de cada hoja: se alinea el título a la izquierda y la imagen a la derecha */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
     }
-    
-    /* =======================
-       FORMULARIO (HOJA)
-    =========================== */
+    .page-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #0a4275;
+    }
+    .page-header img {
+      height: 50px;
+    }
+    /* Hoja de formulario */
     .form-page {
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 15px;
       margin-bottom: 20px;
       page-break-after: always;
-    }
-    .form-page h2 {
-      margin: 0 0 10px 0;
-      color: #0a4275;
-      font-size: 1.4rem;
     }
     .form-group {
       margin-bottom: 10px;
@@ -103,7 +92,6 @@
       display: block;
       margin-bottom: 5px;
       font-weight: 500;
-      font-size: 0.9rem;
     }
     input[type="text"],
     input[type="date"],
@@ -113,17 +101,13 @@
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 0.9rem;
-      box-sizing: border-box;
+      font-size: 0.95rem;
     }
     textarea {
       resize: vertical;
       min-height: 60px;
     }
-    
-    /* =======================
-       AGRUPAR CAMPOS EN FILA
-    =========================== */
+    /* Agrupar campos en fila */
     .form-row {
       display: flex;
       gap: 15px;
@@ -132,41 +116,29 @@
     .form-row > .form-group {
       flex: 1;
     }
-    /* Con este span se muestra la fecha en impresión */
-    .fecha-group .fecha-display { display: none; }
+    /* Grupo para la fecha (se muestra el valor en impresión a través del span) */
+    .fecha-group .fecha-display {
+      display: none;
+    }
     @media print {
       .fecha-group input { display: none; }
       .fecha-group .fecha-display { display: inline; font-weight: bold; }
       body * { visibility: hidden; }
       #pages, #pages * { visibility: visible; }
       #pages { position: absolute; top: 0; left: 0; width: 100%; }
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("KMATEQ.png") repeat;
-        background-size: 300px 300px;
-        opacity: 0.1;
-        z-index: -1;
-        visibility: visible;
-      }
     }
-    
-    /* =======================
-       FIRMAS
-    =========================== */
+    /* Firmas: estilos para los canvas */
     canvas {
       display: block;
       background: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 4px;
       cursor: crosshair;
-      width: 100%;
-      max-width: 250px;
-      height: auto;
+      width: 250px;
+      height: 125px;
+      -ms-touch-action: none;
+      touch-action: none;
+      margin-bottom: 5px;
     }
     .firma-container {
       display: flex;
@@ -178,76 +150,111 @@
       flex: 1;
       min-width: 250px;
     }
-    
-    /* =======================
-       RESPONSIVIDAD OPTIMIZADA
-       Ajustes para pantallas pequeñas muy ajustadas
-    =========================== */
-    @media only screen and (max-width: 768px) {
-      .header {
+
+    /* -------------------------
+       Media queries integrados
+       ------------------------- */
+
+    /* @media screen and (max-width: 768px) {
+      /* Estilos específicos para pantallas menores a 768px (por ejemplo, tablets) */
+    /* } */
+    @media screen and (max-width: 768px) {
+      .container {
+        margin: 10px;
+        width: 95%;
+      }
+      input[type="text"],
+      input[type="date"],
+      select,
+      textarea {
+        font-size: 0.9rem;
+      }
+      .page-header h2 {
+        font-size: 1.3rem;
+      }
+      .page-header img {
+        height: 40px;
+      }
+      /* Las filas siguen con su distribución horizontal, pero se adaptan al ancho disponible */
+      .form-row {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* @media screen and (max-width: 480px) {
+      /* Estilos específicos para pantallas menores a 480px (por ejemplo, teléfonos) */
+    /* } */
+    @media screen and (max-width: 480px) {
+      nav button {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
+      .container {
+        margin: 5px;
+        padding: 10px;
+      }
+      /* En dispositivos muy pequeños el encabezado se organiza en columna */
+      .page-header {
         flex-direction: column;
         align-items: center;
-        text-align: center;
+        gap: 5px;
       }
-      .header h1 { font-size: 1.6rem; margin-bottom: 5px; }
-      nav { flex-direction: column; padding: 8px; }
-      nav button { width: 100%; font-size: 0.85rem; padding: 8px 10px; }
-      .form-row { flex-direction: column; }
-      .form-group label { font-size: 0.8rem; }
-      input[type="text"],
-      input[type="date"],
-      select,
-      textarea { font-size: 0.8rem; padding: 5px; }
-      .firma-container { flex-direction: column; gap: 10px; }
-    }
-    
-    @media only screen and (max-width: 480px) {
-      .container {
+      .page-header h2 {
+        font-size: 1.2rem;
+      }
+      /* Para garantizar que los campos se organicen de forma vertical y ordenada */
+      .form-row {
+        flex-direction: column;
+      }
+      .firma-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      canvas {
         width: 100%;
-        margin: 0;
-        padding: 5px;
-        box-shadow: none;
-        border-radius: 0;
+        max-width: 250px;
+        height: auto;
       }
-      .header {
-        padding: 5px;
-      }
-      .header h1 { font-size: 1.4rem; }
-      nav button { font-size: 0.8rem; padding: 6px 8px; }
-      .form-group label { font-size: 0.75rem; }
       input[type="text"],
       input[type="date"],
       select,
-      textarea { font-size: 0.75rem; padding: 4px; }
+      textarea {
+        font-size: 0.9rem;
+      }
     }
-    
   </style>
 </head>
 <body>
-  <!-- Navegación -->
+  <!-- Botones de control -->
   <nav>
     <button id="addPage">Generar Hoja</button>
     <button id="savePages">Guardar Hojas</button>
     <button id="loadPages">Cargar Hojas</button>
     <button id="printPages">Imprimir PDF</button>
   </nav>
+
   <div class="container">
     <div class="header">
       <h1>Hojas de Entrada y Salida KMATEQ</h1>
-      <img src="KMATEQ.png" alt="Logo KMATEQ" class="logo">
     </div>
-    <!-- Contenedor de hojas -->
+    <!-- Aquí se agregarán las páginas dinámicamente -->
     <div id="pages"></div>
   </div>
-  <!-- Plantilla para formularios -->
+
+  <!-- Plantilla para cada hoja (formulario completo) -->
   <template id="pageTemplate">
     <div class="form-page" data-page="{{num}}">
-      <h2>Hoja de Entrada y Salida {{num}}</h2>
+      <div class="page-header">
+        <h2>Hoja de Entrada y Salida {{num}}</h2>
+        <img src="km.png" alt="KMATEQ Logo">
+      </div>
+      <!-- Campo Fecha -->
       <div class="form-group fecha-group">
         <label for="fecha-{{num}}">Fecha:</label>
         <input type="date" id="fecha-{{num}}" name="fecha-{{num}}">
         <span class="fecha-display"></span>
       </div>
+      <!-- Fila: Tipo de Equipo, Marca/Modelo y Procesador -->
       <div class="form-row">
         <div class="form-group">
           <label for="tipo-equipo-{{num}}">Tipo de Equipo:</label>
@@ -262,6 +269,7 @@
           <input type="text" id="procesador-{{num}}" name="procesador-{{num}}" placeholder="Ingrese el procesador">
         </div>
       </div>
+      <!-- Fila: SN Equipo, Serial Kmateq y Periféricos -->
       <div class="form-row">
         <div class="form-group">
           <label for="sn-equipo-{{num}}">SN Equipo:</label>
@@ -276,6 +284,7 @@
           <input type="text" id="perifericos-{{num}}" name="perifericos-{{num}}" placeholder="Ingrese los periféricos">
         </div>
       </div>
+      <!-- Fila: Tipo de Disco, Tamaño del Disco y RAM -->
       <div class="form-row">
         <div class="form-group">
           <label>Tipo de Disco:</label>
@@ -311,6 +320,7 @@
           </select>
         </div>
       </div>
+      <!-- Fila: Licencia Windows y Licencia Office -->
       <div class="form-row">
         <div class="form-group">
           <label for="licencia-windows-{{num}}">Licencia Windows:</label>
@@ -321,10 +331,12 @@
           <input type="text" id="licencia-office-{{num}}" name="licencia-office-{{num}}" placeholder="Ingrese la licencia de Office">
         </div>
       </div>
+      <!-- Campo Observaciones -->
       <div class="form-group">
         <label for="observaciones-{{num}}">Observaciones:</label>
         <textarea id="observaciones-{{num}}" name="observaciones-{{num}}" placeholder="Escriba alguna observación"></textarea>
       </div>
+      <!-- Fila: Datos de entrega -->
       <div class="form-row">
         <div class="form-group">
           <label for="empresa-entrega-{{num}}">Empresa Quien entrega:</label>
@@ -335,6 +347,7 @@
           <input type="text" id="nombre-entrega-{{num}}" name="nombre-entrega-{{num}}" placeholder="Ingrese nombres y apellidos">
         </div>
       </div>
+      <!-- Fila: Datos de recepción -->
       <div class="form-row">
         <div class="form-group">
           <label for="empresa-recibe-{{num}}">Empresa Quien recibe:</label>
@@ -345,192 +358,214 @@
           <input type="text" id="nombre-recibe-{{num}}" name="nombre-recibe-{{num}}" placeholder="Ingrese nombres y apellidos">
         </div>
       </div>
+      <!-- Sección de firmas -->
       <div class="firma-container">
         <div class="form-group">
           <label>Firma de Quien entrega:</label>
           <canvas id="firma-entrega-{{num}}" width="250" height="125"></canvas>
-          <button type="button" onclick="clearCanvas('firma-entrega-{{num}}')">Limpiar Firma</button>
+          <button type="button" class="clear-signature" data-canvas-id="firma-entrega-{{num}}">Limpiar Firma</button>
         </div>
         <div class="form-group">
           <label>Firma de Quien recibe:</label>
           <canvas id="firma-recibe-{{num}}" width="250" height="125"></canvas>
-          <button type="button" onclick="clearCanvas('firma-recibe-{{num}}')">Limpiar Firma</button>
+          <button type="button" class="clear-signature" data-canvas-id="firma-recibe-{{num}}">Limpiar Firma</button>
         </div>
       </div>
     </div>
   </template>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", () => {
       let pageCount = 0;
       const pagesContainer = document.getElementById("pages");
-      
-      // Función para añadir una nueva hoja
-      function addPage() {
+      const template = document.getElementById("pageTemplate");
+
+      // Función para agregar una nueva página clonando el template
+      const addPage = () => {
         pageCount++;
-        let pageHTML = document.getElementById("pageTemplate").innerHTML.replace(/{{num}}/g, pageCount);
-        pagesContainer.insertAdjacentHTML("beforeend", pageHTML);
-        setupSignaturePad("firma-entrega-" + pageCount);
-        setupSignaturePad("firma-recibe-" + pageCount);
-        let newPage = pagesContainer.lastElementChild;
-        let dateInput = newPage.querySelector(`#fecha-${pageCount}`);
-        let spanDate = newPage.querySelector(".fecha-display");
-        dateInput.addEventListener("change", function() {
-          spanDate.textContent = this.value;
+        // Clonamos el contenido del template
+        const clone = document.importNode(template.content, true);
+        // Reemplazamos "{{num}}" por el número actual, en todo el contenido clonado
+        let newPageHTML = clone.firstElementChild.innerHTML.replace(/{{num}}/g, pageCount);
+        clone.firstElementChild.innerHTML = newPageHTML;
+        // Establecemos el atributo data-page con el número de página
+        clone.firstElementChild.setAttribute("data-page", pageCount);
+        // Agregamos la nueva página al contenedor
+        pagesContainer.appendChild(clone);
+
+        // Actualizamos la visualización del input de fecha para impresión
+        const currentPage = pagesContainer.lastElementChild;
+        const dateInput = currentPage.querySelector(`#fecha-${pageCount}`);
+        const dateDisplay = currentPage.querySelector(".fecha-display");
+        dateInput.addEventListener("change", () => {
+          dateDisplay.textContent = dateInput.value;
         });
-      }
-      
-      // Función para limpiar canvas
-      window.clearCanvas = function(canvasId) {
+
+        // Configuramos el área de firma para ambos canvas
+        setupSignaturePad(`firma-entrega-${pageCount}`);
+        setupSignaturePad(`firma-recibe-${pageCount}`);
+
+        // Asignamos eventos a los botones de limpiar firma usando data-attributes
+        currentPage.querySelectorAll(".clear-signature").forEach(btn => {
+          const canvasId = btn.getAttribute("data-canvas-id");
+          btn.addEventListener("click", () => clearSignatureCanvas(canvasId));
+        });
+      };
+
+      // Función para limpiar el contenido del canvas especificado
+      const clearSignatureCanvas = (canvasId) => {
         const canvas = document.getElementById(canvasId);
         if (canvas) {
           const ctx = canvas.getContext("2d");
           ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
       };
-      
-      // Configurar área de firma
-      function setupSignaturePad(canvasId) {
+
+      // Configuración del canvas para las firmas (unificando eventos de mouse y táctiles)
+      const setupSignaturePad = (canvasId) => {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
         let drawing = false;
-        canvas.addEventListener("mousedown", function(e) {
+
+        const startDrawing = (e) => {
           drawing = true;
           ctx.beginPath();
-          const rect = canvas.getBoundingClientRect();
-          ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-        });
-        canvas.addEventListener("mousemove", function(e) {
+          const { left, top } = canvas.getBoundingClientRect();
+          const x = (e.touches ? e.touches[0].clientX : e.clientX) - left;
+          const y = (e.touches ? e.touches[0].clientY : e.clientY) - top;
+          ctx.moveTo(x, y);
+        };
+
+        const draw = (e) => {
           if (!drawing) return;
-          const rect = canvas.getBoundingClientRect();
-          ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+          const { left, top } = canvas.getBoundingClientRect();
+          const x = (e.touches ? e.touches[0].clientX : e.clientX) - left;
+          const y = (e.touches ? e.touches[0].clientY : e.clientY) - top;
+          ctx.lineTo(x, y);
           ctx.strokeStyle = "#000";
           ctx.lineWidth = 2;
           ctx.lineCap = "round";
           ctx.stroke();
-        });
-        canvas.addEventListener("mouseup", function() {
+        };
+
+        const endDrawing = (e) => {
           drawing = false;
-        });
-        canvas.addEventListener("touchstart", function(e) {
           e.preventDefault();
-          drawing = true;
-          const rect = canvas.getBoundingClientRect();
-          const touch = e.touches[0];
-          ctx.beginPath();
-          ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-        });
-        canvas.addEventListener("touchmove", function(e) {
+        };
+
+        // Eventos para dispositivos con mouse
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", endDrawing);
+        // Eventos para dispositivos táctiles
+        canvas.addEventListener("touchstart", (e) => {
           e.preventDefault();
-          if (!drawing) return;
-          const rect = canvas.getBoundingClientRect();
-          const touch = e.touches[0];
-          ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-          ctx.strokeStyle = "#000";
-          ctx.lineWidth = 2;
-          ctx.lineCap = "round";
-          ctx.stroke();
+          startDrawing(e);
         });
-        canvas.addEventListener("touchend", function(e) {
+        canvas.addEventListener("touchmove", (e) => {
           e.preventDefault();
-          drawing = false;
+          draw(e);
         });
-      }
-      
-      // Guardar y cargar hojas con localStorage
-      function saveHojas() {
-        const hojas = [];
-        document.querySelectorAll(".form-page").forEach(page => {
-          const hoja = {};
-          hoja.num = page.getAttribute("data-page");
-          hoja.fecha = page.querySelector("input[type='date']").value || "";
-          hoja.tipoEquipo = page.querySelector("input[id^='tipo-equipo-']").value || "";
-          hoja.marcaSerial = page.querySelector("input[id^='marca-serial-']").value || "";
-          hoja.procesador = page.querySelector("input[id^='procesador-']").value || "";
-          hoja.snEquipo = page.querySelector("input[id^='sn-equipo-']").value || "";
-          hoja.serialKmateq = page.querySelector("input[id^='serial-kmateq-']").value || "";
-          hoja.perifericos = page.querySelector("input[id^='perifericos-']").value || "";
-          hoja.tamanioDisco = page.querySelector("select[id^='tamanio-disco-']").value || "";
-          hoja.ram = page.querySelector("select[id^='ram-']").value || "";
-          hoja.licenciaWindows = page.querySelector("input[id^='licencia-windows-']").value || "";
-          hoja.licenciaOffice = page.querySelector("input[id^='licencia-office-']").value || "";
-          hoja.observaciones = page.querySelector("textarea[id^='observaciones-']").value || "";
-          hoja.empresaEntrega = page.querySelector("input[id^='empresa-entrega-']").value || "";
-          hoja.nombreEntrega = page.querySelector("input[id^='nombre-entrega-']").value || "";
-          hoja.empresaRecibe = page.querySelector("input[id^='empresa-recibe-']").value || "";
-          hoja.nombreRecibe = page.querySelector("input[id^='nombre-recibe-']").value || "";
-          const canvasEntrega = page.querySelector("canvas[id^='firma-entrega-']");
-          const canvasRecibe = page.querySelector("canvas[id^='firma-recibe-']");
-          hoja.firmaEntrega = canvasEntrega ? canvasEntrega.toDataURL() : "";
-          hoja.firmaRecibe = canvasRecibe ? canvasRecibe.toDataURL() : "";
-          hojas.push(hoja);
+        canvas.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          endDrawing(e);
         });
-        localStorage.setItem("formHojas", JSON.stringify(hojas));
-        alert("Hojas guardadas en el navegador.");
-      }
-      
-      function loadHojas() {
-        const hojas = JSON.parse(localStorage.getItem("formHojas")) || [];
-        pagesContainer.innerHTML = "";
-        pageCount = 0;
-        hojas.forEach(hoja => {
-          pageCount++;
-          let pageHTML = document.getElementById("pageTemplate").innerHTML.replace(/{{num}}/g, pageCount);
-          pagesContainer.insertAdjacentHTML("beforeend", pageHTML);
-          let page = pagesContainer.lastElementChild;
-          page.setAttribute("data-page", pageCount);
-          page.querySelector(`#fecha-${pageCount}`).value = hoja.fecha;
-          page.querySelector(`#fecha-${pageCount}`).dispatchEvent(new Event("change"));
-          page.querySelector(`#tipo-equipo-${pageCount}`).value = hoja.tipoEquipo;
-          page.querySelector(`#marca-serial-${pageCount}`).value = hoja.marcaSerial;
-          page.querySelector(`#procesador-${pageCount}`).value = hoja.procesador;
-          page.querySelector(`#sn-equipo-${pageCount}`).value = hoja.snEquipo;
-          page.querySelector(`#serial-kmateq-${pageCount}`).value = hoja.serialKmateq;
-          page.querySelector(`#perifericos-${pageCount}`).value = hoja.perifericos;
-          page.querySelector(`#tamanio-disco-${pageCount}`).value = hoja.tamanioDisco;
-          page.querySelector(`#ram-${pageCount}`).value = hoja.ram;
-          page.querySelector(`#licencia-windows-${pageCount}`).value = hoja.licenciaWindows;
-          page.querySelector(`#licencia-office-${pageCount}`).value = hoja.licenciaOffice;
-          page.querySelector(`#observaciones-${pageCount}`).value = hoja.observaciones;
-          page.querySelector(`#empresa-entrega-${pageCount}`).value = hoja.empresaEntrega;
-          page.querySelector(`#nombre-entrega-${pageCount}`).value = hoja.nombreEntrega;
-          page.querySelector(`#empresa-recibe-${pageCount}`).value = hoja.empresaRecibe;
-          page.querySelector(`#nombre-recibe-${pageCount}`).value = hoja.nombreRecibe;
-          const canvasEntrega = page.querySelector(`#firma-entrega-${pageCount}`);
-          const canvasRecibe = page.querySelector(`#firma-recibe-${pageCount}`);
-          if (canvasEntrega && hoja.firmaEntrega) {
-            let imgEntrega = new Image();
-            imgEntrega.onload = function() {
-              canvasEntrega.getContext("2d").drawImage(imgEntrega, 0, 0);
+      };
+
+      // Función para guardar los datos de las páginas en localStorage
+      const savePages = () => {
+        try {
+          const hojas = Array.from(document.querySelectorAll(".form-page")).map(page => {
+            const pageNum = page.getAttribute("data-page");
+            const hoja = {
+              num: pageNum,
+              fecha: page.querySelector(`#fecha-${pageNum}`).value || "",
+              tipoEquipo: page.querySelector(`#tipo-equipo-${pageNum}`).value || "",
+              marcaSerial: page.querySelector(`#marca-serial-${pageNum}`).value || "",
+              procesador: page.querySelector(`#procesador-${pageNum}`).value || "",
+              snEquipo: page.querySelector(`#sn-equipo-${pageNum}`).value || "",
+              serialKmateq: page.querySelector(`#serial-kmateq-${pageNum}`).value || "",
+              perifericos: page.querySelector(`#perifericos-${pageNum}`).value || "",
+              tamanioDisco: page.querySelector(`#tamanio-disco-${pageNum}`).value || "",
+              ram: page.querySelector(`#ram-${pageNum}`).value || "",
+              licenciaWindows: page.querySelector(`#licencia-windows-${pageNum}`).value || "",
+              licenciaOffice: page.querySelector(`#licencia-office-${pageNum}`).value || "",
+              observaciones: page.querySelector(`#observaciones-${pageNum}`).value || "",
+              empresaEntrega: page.querySelector(`#empresa-entrega-${pageNum}`).value || "",
+              nombreEntrega: page.querySelector(`#nombre-entrega-${pageNum}`).value || "",
+              empresaRecibe: page.querySelector(`#empresa-recibe-${pageNum}`).value || "",
+              nombreRecibe: page.querySelector(`#nombre-recibe-${pageNum}`).value || ""
             };
-            imgEntrega.src = hoja.firmaEntrega;
-          }
-          if (canvasRecibe && hoja.firmaRecibe) {
-            let imgRecibe = new Image();
-            imgRecibe.onload = function() {
-              canvasRecibe.getContext("2d").drawImage(imgRecibe, 0, 0);
-            };
-            imgRecibe.src = hoja.firmaRecibe;
-          }
-          setupSignaturePad("firma-entrega-" + pageCount);
-          setupSignaturePad("firma-recibe-" + pageCount);
-          let dateInput = page.querySelector(`#fecha-${pageCount}`);
-          let spanDate = page.querySelector(".fecha-display");
-          dateInput.addEventListener("change", function() {
-            spanDate.textContent = this.value;
+            const canvasEntrega = page.querySelector(`#firma-entrega-${pageNum}`);
+            const canvasRecibe = page.querySelector(`#firma-recibe-${pageNum}`);
+            hoja.firmaEntrega = canvasEntrega ? canvasEntrega.toDataURL() : "";
+            hoja.firmaRecibe = canvasRecibe ? canvasRecibe.toDataURL() : "";
+            return hoja;
           });
-        });
-        alert("Hojas cargadas desde el navegador.");
-      }
-      
-      addPage();
-      
+          localStorage.setItem("formHojas", JSON.stringify(hojas));
+          alert("Hojas guardadas en el navegador.");
+        } catch (error) {
+          console.error("Error guardando hojas:", error);
+          alert("Error al guardar las hojas.");
+        }
+      };
+
+      // Función para cargar las páginas guardadas desde localStorage
+      const loadPages = () => {
+        try {
+          const hojas = JSON.parse(localStorage.getItem("formHojas")) || [];
+          pagesContainer.innerHTML = "";
+          pageCount = 0;
+          hojas.forEach(hoja => {
+            addPage();
+            const currentPage = pagesContainer.lastElementChild;
+            const pageNum = currentPage.getAttribute("data-page");
+            currentPage.querySelector(`#fecha-${pageNum}`).value = hoja.fecha;
+            currentPage.querySelector(`#fecha-${pageNum}`).dispatchEvent(new Event("change"));
+            currentPage.querySelector(`#tipo-equipo-${pageNum}`).value = hoja.tipoEquipo;
+            currentPage.querySelector(`#marca-serial-${pageNum}`).value = hoja.marcaSerial;
+            currentPage.querySelector(`#procesador-${pageNum}`).value = hoja.procesador;
+            currentPage.querySelector(`#sn-equipo-${pageNum}`).value = hoja.snEquipo;
+            currentPage.querySelector(`#serial-kmateq-${pageNum}`).value = hoja.serialKmateq;
+            currentPage.querySelector(`#perifericos-${pageNum}`).value = hoja.perifericos;
+            currentPage.querySelector(`#tamanio-disco-${pageNum}`).value = hoja.tamanioDisco;
+            currentPage.querySelector(`#ram-${pageNum}`).value = hoja.ram;
+            currentPage.querySelector(`#licencia-windows-${pageNum}`).value = hoja.licenciaWindows;
+            currentPage.querySelector(`#licencia-office-${pageNum}`).value = hoja.licenciaOffice;
+            currentPage.querySelector(`#observaciones-${pageNum}`).value = hoja.observaciones;
+            currentPage.querySelector(`#empresa-entrega-${pageNum}`).value = hoja.empresaEntrega;
+            currentPage.querySelector(`#nombre-entrega-${pageNum}`).value = hoja.nombreEntrega;
+            currentPage.querySelector(`#empresa-recibe-${pageNum}`).value = hoja.empresaRecibe;
+            currentPage.querySelector(`#nombre-recibe-${pageNum}`).value = hoja.nombreRecibe;
+            const canvasEntrega = currentPage.querySelector(`#firma-entrega-${pageNum}`);
+            const canvasRecibe = currentPage.querySelector(`#firma-recibe-${pageNum}`);
+            if (canvasEntrega && hoja.firmaEntrega) {
+              const img = new Image();
+              img.onload = () => canvasEntrega.getContext("2d").drawImage(img, 0, 0);
+              img.src = hoja.firmaEntrega;
+            }
+            if (canvasRecibe && hoja.firmaRecibe) {
+              const img = new Image();
+              img.onload = () => canvasRecibe.getContext("2d").drawImage(img, 0, 0);
+              img.src = hoja.firmaRecibe;
+            }
+          });
+          alert("Hojas cargadas desde el navegador.");
+        } catch (error) {
+          console.error("Error cargando hojas:", error);
+          alert("Error al cargar las hojas.");
+        }
+      };
+
+      // Asignación de eventos a los botones de control
       document.getElementById("addPage").addEventListener("click", addPage);
-      document.getElementById("savePages").addEventListener("click", saveHojas);
-      document.getElementById("loadPages").addEventListener("click", loadHojas);
-      document.getElementById("printPages").addEventListener("click", function() {
-        window.print();
-      });
+      document.getElementById("savePages").addEventListener("click", savePages);
+      document.getElementById("loadPages").addEventListener("click", loadPages);
+      document.getElementById("printPages").addEventListener("click", () => window.print());
+
+      // Se crea la primera página automáticamente al cargar
+      addPage();
     });
   </script>
 </body>
