@@ -26,7 +26,7 @@
       padding: 15px;
     }
     nav button {
-      background: #0a4275;
+      background: #03340a;
       border: none;
       color: #fff;
       padding: 10px 20px;
@@ -35,7 +35,7 @@
       transition: background 0.3s ease;
     }
     nav button:hover {
-      background: #092f5f;
+      background: #013207;
     }
     /* Contenedor principal */
     .container {
@@ -50,7 +50,7 @@
     .header {
       text-align: center;
       padding: 15px;
-      background: #0a4275;
+      background: #02410d;
       color: #fff;
       border-radius: 8px 8px 0 0;
       margin-bottom: 20px;
@@ -60,7 +60,7 @@
       font-size: 2rem;
       text-transform: uppercase;
     }
-    /* Encabezado de cada hoja: se alinea el título a la izquierda y la imagen a la derecha */
+    /* Encabezado de cada hoja: título a la izquierda y la imagen a la derecha */
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -72,7 +72,7 @@
     .page-header h2 {
       margin: 0;
       font-size: 1.5rem;
-      color: #0a4275;
+      color: #03571b;
     }
     .page-header img {
       height: 50px;
@@ -102,6 +102,7 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 0.95rem;
+      box-sizing: border-box;
     }
     textarea {
       resize: vertical;
@@ -116,13 +117,26 @@
     .form-row > .form-group {
       flex: 1;
     }
-    /* Grupo para la fecha (se muestra el valor en impresión a través del span) */
+    /* Grupo para la fecha: inicialmente se muestra el input y el span queda oculto */
     .fecha-group .fecha-display {
       display: none;
     }
+    /* Estilos de impresión */
     @media print {
-      .fecha-group input { display: none; }
-      .fecha-group .fecha-display { display: inline; font-weight: bold; }
+      .fecha-group {
+        display: flex;
+        align-items: center;
+      }
+      .fecha-group label {
+        margin-right: 10px;
+      }
+      .fecha-group input {
+        display: none;
+      }
+      .fecha-group .fecha-display {
+        display: inline;
+        font-weight: bold;
+      }
       body * { visibility: hidden; }
       #pages, #pages * { visibility: visible; }
       #pages { position: absolute; top: 0; left: 0; width: 100%; }
@@ -150,14 +164,9 @@
       flex: 1;
       min-width: 250px;
     }
-
     /* -------------------------
        Media queries integrados
        ------------------------- */
-
-    /* @media screen and (max-width: 768px) {
-      /* Estilos específicos para pantallas menores a 768px (por ejemplo, tablets) */
-    /* } */
     @media screen and (max-width: 768px) {
       .container {
         margin: 10px;
@@ -175,15 +184,11 @@
       .page-header img {
         height: 40px;
       }
-      /* Las filas siguen con su distribución horizontal, pero se adaptan al ancho disponible */
+      /* Las filas se ajustan con flex-wrap */
       .form-row {
         flex-wrap: wrap;
       }
     }
-
-    /* @media screen and (max-width: 480px) {
-      /* Estilos específicos para pantallas menores a 480px (por ejemplo, teléfonos) */
-    /* } */
     @media screen and (max-width: 480px) {
       nav button {
         padding: 8px 15px;
@@ -202,7 +207,7 @@
       .page-header h2 {
         font-size: 1.2rem;
       }
-      /* Para garantizar que los campos se organicen de forma vertical y ordenada */
+      /* Para garantizar una disposición vertical y ordenada */
       .form-row {
         flex-direction: column;
       }
@@ -385,10 +390,10 @@
         pageCount++;
         // Clonamos el contenido del template
         const clone = document.importNode(template.content, true);
-        // Reemplazamos "{{num}}" por el número actual, en todo el contenido clonado
+        // Reemplazamos "{{num}}" por el número actual en todo el contenido clonado
         let newPageHTML = clone.firstElementChild.innerHTML.replace(/{{num}}/g, pageCount);
         clone.firstElementChild.innerHTML = newPageHTML;
-        // Establecemos el atributo data-page con el número de página
+        // Asignamos el atributo data-page con el número de la página
         clone.firstElementChild.setAttribute("data-page", pageCount);
         // Agregamos la nueva página al contenedor
         pagesContainer.appendChild(clone);
@@ -405,7 +410,7 @@
         setupSignaturePad(`firma-entrega-${pageCount}`);
         setupSignaturePad(`firma-recibe-${pageCount}`);
 
-        // Asignamos eventos a los botones de limpiar firma usando data-attributes
+        // Asignamos eventos a los botones de "Limpiar Firma" usando data-attributes
         currentPage.querySelectorAll(".clear-signature").forEach(btn => {
           const canvasId = btn.getAttribute("data-canvas-id");
           btn.addEventListener("click", () => clearSignatureCanvas(canvasId));
